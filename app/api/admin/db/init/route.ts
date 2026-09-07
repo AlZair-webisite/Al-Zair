@@ -130,6 +130,27 @@ export async function POST() {
       logs.push(`admin sync: ${err?.message}`);
     }
 
+    // D. Seed Newsletter Subscribers Table
+    try {
+      const { error: subErr } = await supabaseAdmin
+        .from('newsletter_subscribers')
+        .upsert(
+          [
+            { email: 'abc@gmail.com' },
+            { email: 'xyz@gmail.com' },
+          ],
+          { onConflict: 'email' }
+        );
+
+      if (!subErr) {
+        logs.push('Verified and synced newsletter_subscribers table in Supabase.');
+      } else {
+        logs.push(`newsletter sync note: ${subErr.message}`);
+      }
+    } catch (err: any) {
+      logs.push(`newsletter sync: ${err?.message}`);
+    }
+
     return NextResponse.json({
       success: true,
       message: 'Automatic database initialization and schema sync completed!',

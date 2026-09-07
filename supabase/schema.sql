@@ -93,6 +93,14 @@ CREATE TABLE IF NOT EXISTS public.contact_inquiries (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
+-- 7. NEWSLETTER SUBSCRIBERS TABLE
+CREATE TABLE IF NOT EXISTS public.newsletter_subscribers (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    email TEXT UNIQUE NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
 -- 7. HOMEPAGE CONTENT & SECTIONS TABLE
 CREATE TABLE IF NOT EXISTS public.homepage_content (
     id TEXT PRIMARY KEY DEFAULT 'main_homepage',
@@ -144,6 +152,7 @@ ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.order_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.contact_inquiries ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.newsletter_subscribers ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.homepage_content ENABLE ROW LEVEL SECURITY;
 
 -- Homepage Content: Public can read, Admins can update
@@ -165,6 +174,10 @@ CREATE POLICY "Admins can manage order items" ON public.order_items FOR ALL USIN
 -- Inquiries: Public can insert, Admins can view/update
 CREATE POLICY "Public can insert inquiries" ON public.contact_inquiries FOR INSERT WITH CHECK (true);
 CREATE POLICY "Admins can manage inquiries" ON public.contact_inquiries FOR ALL USING (true);
+
+-- Newsletter Subscribers: Public can insert, Admins can manage
+CREATE POLICY "Public can subscribe to newsletter" ON public.newsletter_subscribers FOR INSERT WITH CHECK (true);
+CREATE POLICY "Admins can manage newsletter subscribers" ON public.newsletter_subscribers FOR ALL USING (true);
 
 -- ==========================================================
 -- SEED INITIAL CATALOG PRODUCTS

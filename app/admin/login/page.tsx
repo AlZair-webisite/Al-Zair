@@ -60,25 +60,25 @@ function LoginForm() {
       {/* Main Container */}
       <div className="relative z-10 w-full max-w-md">
         {/* Brand Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center mb-5">
+        <div className="flex flex-col items-center text-center mb-8">
+          <div className="flex items-center justify-center mb-3">
             <Image
               src="/images/logo.png"
               alt="Al Zair"
               width={340}
               height={110}
-              className="h-20 w-auto object-contain drop-shadow-[0_4px_18px_rgba(0,0,0,0.7)]"
+              className="h-24 w-auto object-contain drop-shadow-[0_4px_18px_rgba(0,0,0,0.7)]"
               priority
             />
           </div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#c49a4a]/30 bg-[#c49a4a]/10 text-[#d6b15e] text-[11px] font-bold tracking-widest uppercase">
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full border border-[#c49a4a]/30 bg-[#c49a4a]/10 text-[#d6b15e] text-[11px] font-bold tracking-widest uppercase">
             <KeyRound size={12} />
             <span>Admin Management Portal</span>
           </div>
-          <h1 className="mt-3 font-serif text-2xl sm:text-3xl text-white font-normal">
+          <h1 className="mt-4 font-sans text-2xl sm:text-3xl text-white font-bold tracking-tight">
             Welcome Back
           </h1>
-          <p className="mt-1 text-xs text-white/60">
+          <p className="mt-1.5 text-xs text-white/60">
             Sign in to manage catalog, orders, and system settings.
           </p>
         </div>

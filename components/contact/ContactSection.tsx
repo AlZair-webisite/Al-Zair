@@ -1,6 +1,6 @@
 'use client';
 
-import { CheckCircle2, Clock, Mail, MapPin, Phone, Send } from 'lucide-react';
+import { AlertCircle, CheckCircle2, Clock, Loader2, Mail, MapPin, Phone, Send } from 'lucide-react';
 import { FormEvent, useState } from 'react';
 
 export function ContactSection() {
@@ -11,14 +11,40 @@ export function ContactSection() {
     subject: '',
     message: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (formData.name && formData.email && formData.message) {
-      setIsSubmitted(true);
-      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-      setTimeout(() => setIsSubmitted(false), 6000);
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      setErrorMessage('Please fill in all required fields (Name, Email, Message).');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrorMessage('');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await res.json();
+
+      if (res.ok && result.success) {
+        setIsSubmitted(true);
+        setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+        setTimeout(() => setIsSubmitted(false), 8000);
+      } else {
+        setErrorMessage(result.error || 'Failed to submit inquiry. Please try again.');
+      }
+    } catch (err: any) {
+      setErrorMessage(err?.message || 'Network error occurred. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -113,9 +139,16 @@ export function ContactSection() {
           </h3>
 
           {isSubmitted && (
-            <div className="mt-4 flex items-center gap-2.5 rounded-lg border border-emerald-600/30 bg-emerald-50 px-4 py-3 text-xs font-medium text-emerald-800">
+            <div className="mt-4 flex items-center gap-2.5 rounded-lg border border-emerald-600/30 bg-emerald-50 px-4 py-3 text-xs font-medium text-emerald-800 animate-fadeIn">
               <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
               Thank you! Your message has been sent successfully. We will get back to you soon.
+            </div>
+          )}
+
+          {errorMessage && (
+            <div className="mt-4 flex items-center gap-2.5 rounded-lg border border-rose-600/30 bg-rose-50 px-4 py-3 text-xs font-medium text-rose-800 animate-fadeIn">
+              <AlertCircle size={16} className="text-rose-600 shrink-0" />
+              {errorMessage}
             </div>
           )}
 
@@ -123,7 +156,7 @@ export function ContactSection() {
             {/* Full Name */}
             <div>
               <label className="block text-[10px] font-bold uppercase tracking-[.18em] text-[#554e44]">
-                Full Name
+                Full Name *
               </label>
               <input
                 type="text"
@@ -139,7 +172,7 @@ export function ContactSection() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-[10px] font-bold uppercase tracking-[.18em] text-[#554e44]">
-                  Email Address
+                  Email Address *
                 </label>
                 <input
                   type="email"
@@ -181,7 +214,7 @@ export function ContactSection() {
             {/* Message */}
             <div>
               <label className="block text-[10px] font-bold uppercase tracking-[.18em] text-[#554e44]">
-                Message
+                Message *
               </label>
               <textarea
                 required
@@ -197,9 +230,20 @@ export function ContactSection() {
             <div className="pt-2">
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 rounded-full bg-[#b89047] px-8 py-3.5 text-xs font-bold tracking-widest text-[#171513] shadow-[0_4px_16px_rgba(184,144,71,0.25)] transition duration-300 hover:bg-[#a67e35] hover:shadow-[0_6px_22px_rgba(184,144,71,0.35)] active:scale-[0.98]"
+                disabled={isSubmitting}
+                className="inline-flex items-center gap-2 rounded-full bg-[#b89047] px-8 py-3.5 text-xs font-bold tracking-widest text-[#171513] shadow-[0_4px_16px_rgba(184,144,71,0.25)] transition duration-300 hover:bg-[#a67e35] hover:shadow-[0_6px_22px_rgba(184,144,71,0.35)] active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                SEND MESSAGE <Send size={13} />
+                {isSubmitting ? (
+                  <>
+                    <span>SENDING...</span>
+                    <Loader2 size={13} className="animate-spin" />
+                  </>
+                ) : (
+                  <>
+                    <span>SEND MESSAGE</span>
+                    <Send size={13} />
+                  </>
+                )}
               </button>
             </div>
           </form>

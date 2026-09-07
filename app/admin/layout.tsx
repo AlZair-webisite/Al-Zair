@@ -4,9 +4,11 @@ import {
   Boxes,
   ExternalLink,
   Home,
+  Image as ImageIcon,
   LayoutDashboard,
   LogOut,
   Mail,
+  MailCheck,
   Menu,
   ShoppingBag,
   UserCheck,
@@ -97,7 +99,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { label: 'Home Page', href: '/admin/home', icon: Home },
     { label: 'Products', href: '/admin/products', icon: Boxes },
     { label: 'Orders', href: '/admin/orders', icon: ShoppingBag },
+    { label: 'Gallery', href: '/admin/gallery', icon: ImageIcon },
     { label: 'Inquiries', href: '/admin/messages', icon: Mail },
+    { label: 'Newsletter', href: '/admin/newsletter', icon: MailCheck },
   ];
 
   return (

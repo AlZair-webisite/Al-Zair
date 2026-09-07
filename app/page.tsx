@@ -28,7 +28,13 @@ function getSavedServerContent(): HomepageContent | null {
 }
 
 async function getHomepageContent(): Promise<HomepageContent> {
-  // 1. Check PostgreSQL in Supabase
+  // 1. Check saved server backend JSON file (always updated in real-time)
+  const saved = getSavedServerContent();
+  if (saved) {
+    return saved;
+  }
+
+  // 2. Check PostgreSQL in Supabase
   try {
     const { data, error } = await supabaseAdmin
       .from('homepage_content')
@@ -45,12 +51,6 @@ async function getHomepageContent(): Promise<HomepageContent> {
       };
     }
   } catch {}
-
-  // 2. Check saved server backend JSON file
-  const saved = getSavedServerContent();
-  if (saved) {
-    return saved;
-  }
 
   // 3. Fallback to default
   return defaultHomepageContent;

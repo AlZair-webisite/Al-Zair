@@ -2,21 +2,55 @@
 
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import Image from 'next/image';
-import { useState } from 'react';
-import { galleryImages } from '@/data/products';
+import { useEffect, useMemo, useState } from 'react';
+import { galleryImages as defaultGalleryImages } from '@/data/products';
 
-const tabs = ['ALL', 'PRODUCTS', 'PACKAGING', 'DATES', 'GIFT PACKS'];
+const DEFAULT_TABS = ['ALL', 'PRODUCTS', 'PACKAGING', 'DATES', 'GIFT PACKS'];
+
+interface GalleryItem {
+  id?: string;
+  image: string;
+  alt: string;
+  category?: string;
+}
 
 export function GalleryGrid() {
+  const [imagesList, setImagesList] = useState<GalleryItem[]>(defaultGalleryImages);
   const [activeTab, setActiveTab] = useState('ALL');
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
-  const filteredImages =
-    activeTab === 'ALL'
-      ? galleryImages
-      : galleryImages.filter(
-          (img) => img.category?.toUpperCase() === activeTab.toUpperCase()
-        );
+  useEffect(() => {
+    const loadLiveGallery = async () => {
+      try {
+        const res = await fetch('/api/gallery', { cache: 'no-store' });
+        const json = await res.json();
+        if (res.ok && json.success && Array.isArray(json.data) && json.data.length > 0) {
+          setImagesList(json.data);
+        }
+      } catch (e) {
+        // Fallback to default gallery images seamlessly
+      }
+    };
+
+    loadLiveGallery();
+  }, []);
+
+  const tabs = useMemo(() => {
+    const categoriesSet = new Set<string>(DEFAULT_TABS);
+    imagesList.forEach((item) => {
+      if (item.category) {
+        categoriesSet.add(item.category.toUpperCase());
+      }
+    });
+    return Array.from(categoriesSet);
+  }, [imagesList]);
+
+  const filteredImages = useMemo(() => {
+    if (activeTab === 'ALL') return imagesList;
+    return imagesList.filter(
+      (img) => img.category?.toUpperCase() === activeTab.toUpperCase()
+    );
+  }, [imagesList, activeTab]);
 
   const openLightbox = (index: number) => {
     setLightboxIndex(index);
@@ -27,13 +61,13 @@ export function GalleryGrid() {
   };
 
   const nextImage = () => {
-    if (lightboxIndex !== null) {
+    if (lightboxIndex !== null && filteredImages.length > 0) {
       setLightboxIndex((lightboxIndex + 1) % filteredImages.length);
     }
   };
 
   const prevImage = () => {
-    if (lightboxIndex !== null) {
+    if (lightboxIndex !== null && filteredImages.length > 0) {
       setLightboxIndex((lightboxIndex - 1 + filteredImages.length) % filteredImages.length);
     }
   };
@@ -72,7 +106,7 @@ export function GalleryGrid() {
             >
               <Image
                 src={item.image}
-                alt={item.alt}
+                alt={item.alt || 'Alzair Premium Dates & Products'}
                 fill
                 className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
                 sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
@@ -117,7 +151,7 @@ export function GalleryGrid() {
           <div className="relative max-h-[85vh] max-w-[90vw] aspect-square w-[750px] overflow-hidden rounded-2xl border border-[#c49a4a]/40 bg-[#171512]">
             <Image
               src={filteredImages[lightboxIndex].image}
-              alt={filteredImages[lightboxIndex].alt}
+              alt={filteredImages[lightboxIndex].alt || 'Alzair Premium Dates'}
               fill
               className="object-contain p-2"
               sizes="90vw"

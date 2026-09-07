@@ -20,6 +20,9 @@ import { supabase } from '@/lib/supabase/client';
 
 export default function AdminDashboardPage() {
   const [productCount, setProductCount] = useState<number>(allProducts.length);
+  const [inquiryCount, setInquiryCount] = useState<number>(3);
+  const [unreadInquiryCount, setUnreadInquiryCount] = useState<number>(1);
+  const [subscriberCount, setSubscriberCount] = useState<number>(2);
   const [dbConnected, setDbConnected] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -44,8 +47,29 @@ export default function AdminDashboardPage() {
     }
   };
 
+  const fetchInquiriesAndSubscribers = async () => {
+    try {
+      const [inqRes, subRes] = await Promise.all([
+        fetch('/api/admin/messages'),
+        fetch('/api/admin/newsletter'),
+      ]);
+
+      const inqData = await inqRes.json();
+      if (inqRes.ok && inqData.success && Array.isArray(inqData.data)) {
+        setInquiryCount(inqData.data.length);
+        setUnreadInquiryCount(inqData.unreadCount || 0);
+      }
+
+      const subData = await subRes.json();
+      if (subRes.ok && subData.success && Array.isArray(subData.data)) {
+        setSubscriberCount(subData.data.length);
+      }
+    } catch {}
+  };
+
   useEffect(() => {
     checkDb();
+    fetchInquiriesAndSubscribers();
   }, []);
 
   const stats = [
@@ -72,14 +96,16 @@ export default function AdminDashboardPage() {
       icon: Boxes,
       color: 'text-blue-400',
       bgColor: 'bg-blue-500/10',
+      href: '/admin/products',
     },
     {
       title: 'Customer Inquiries',
-      value: '24',
-      change: '4 unread messages',
+      value: inquiryCount.toString(),
+      change: `${unreadInquiryCount} unread message${unreadInquiryCount === 1 ? '' : 's'}`,
       icon: Mail,
       color: 'text-purple-400',
       bgColor: 'bg-purple-500/10',
+      href: '/admin/messages',
     },
   ];
 
@@ -194,10 +220,9 @@ export default function AdminDashboardPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat) => {
           const Icon = stat.icon;
-          return (
+          const CardContent = (
             <div
-              key={stat.title}
-              className="rounded-2xl border border-white/10 bg-[#12110e] p-5 shadow-lg relative overflow-hidden"
+              className="rounded-2xl border border-white/10 bg-[#12110e] p-5 shadow-lg relative overflow-hidden transition duration-200 hover:border-[#c49a4a]/40 hover:bg-[#161410]"
             >
               <div className="flex items-center justify-between">
                 <span className="text-xs font-medium text-white/60 uppercase tracking-wider">
@@ -208,14 +233,23 @@ export default function AdminDashboardPage() {
                 </div>
               </div>
               <div className="mt-4">
-                <span className="text-2xl sm:text-3xl font-bold text-white font-serif">
+                <span className="text-2xl sm:text-3xl font-extrabold text-white font-sans tracking-tight">
                   {stat.value}
                 </span>
-                <p className="mt-1 text-[11px] font-medium text-emerald-400">
-                  {stat.change}
+                <p className="mt-1 text-[11px] font-medium text-emerald-400 flex items-center justify-between">
+                  <span>{stat.change}</span>
+                  {stat.href && <ArrowUpRight size={13} className="text-[#c49a4a]" />}
                 </p>
               </div>
             </div>
+          );
+
+          return stat.href ? (
+            <Link key={stat.title} href={stat.href} className="block">
+              {CardContent}
+            </Link>
+          ) : (
+            <div key={stat.title}>{CardContent}</div>
           );
         })}
       </div>
