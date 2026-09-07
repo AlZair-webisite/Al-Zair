@@ -21,7 +21,7 @@ export function GalleryHero() {
         </div>
 
         <p className="mt-6 text-sm sm:text-base text-white/70 leading-relaxed font-sans">
-          Explore the world of Syab Dates.
+          Explore the world of Alzair.
         </p>
       </div>
     </section>

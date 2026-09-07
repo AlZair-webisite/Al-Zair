@@ -17,7 +17,7 @@ const policyCards = [
     icon: FileText,
     title: 'Introduction',
     content:
-      'This Privacy Policy describes how Syab Dates Dry Fruits ("we", "us", or "our") collects, uses, and protects your personal information when you visit our website or purchase our products. By using our website, you agree to the practices described in this policy.',
+      'This Privacy Policy describes how Alzair Dates Dry Fruits ("we", "us", or "our") collects, uses, and protects your personal information when you visit our website or purchase our products. By using our website, you agree to the practices described in this policy.',
   },
   {
     icon: UserCheck,
@@ -77,7 +77,7 @@ const policyCards = [
     icon: Phone,
     title: 'Contact Us',
     content:
-      'If you have any questions or concerns about this Privacy Policy, please contact us at syabdatesdryfruits@gmail.com or call +91 7052375313.',
+      'If you have any questions or concerns about this Privacy Policy, please contact us at alzairdates@gmail.com or call +91 7052375313.',
   },
 ];
 

@@ -56,7 +56,7 @@ export function Hero({ data }: HeroProps) {
           <div className="pointer-events-none absolute bottom-4 left-1/2 h-24 w-[80%] -translate-x-1/2 rounded-full bg-[#c49a4a]/25 blur-3xl" />
           <Image
             src={content.image || images.hero}
-            alt="Syab Dates - Premium Halasi Dates"
+            alt="Alzair - Premium Halasi Dates"
             fill
             className="object-contain object-center drop-shadow-[0_25px_40px_rgba(0,0,0,0.85)] transition-transform duration-700 hover:scale-[1.02]"
             priority

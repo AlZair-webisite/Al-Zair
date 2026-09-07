@@ -40,7 +40,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   // Load from localStorage on mount
   useEffect(() => {
     try {
-      const savedCart = localStorage.getItem('syab_dates_cart');
+      const savedCart =
+        localStorage.getItem('alzair_dates_cart') || localStorage.getItem('syab_dates_cart');
       if (savedCart) {
         setCart(JSON.parse(savedCart));
       }
@@ -54,7 +55,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (isInitialized) {
       try {
-        localStorage.setItem('syab_dates_cart', JSON.stringify(cart));
+        localStorage.setItem('alzair_dates_cart', JSON.stringify(cart));
       } catch (e) {
         console.error('Failed to save cart to localStorage', e);
       }

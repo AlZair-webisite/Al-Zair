@@ -4,8 +4,8 @@ import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 
 export const metadata = {
-  title: 'Gallery | Syab Dates Dry Fruits',
-  description: 'Explore the visual journey and rich collection of premium Arabian dates, date creations, and luxury gift packaging from Syab Dates.',
+  title: 'Gallery | Alzair Dates & Dry Fruits',
+  description: 'Explore the visual journey and rich collection of premium Arabian dates, date creations, and luxury gift packaging from Alzair.',
 };
 
 export default function GalleryPage() {

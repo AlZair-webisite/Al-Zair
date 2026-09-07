@@ -21,15 +21,15 @@ export function CartContent() {
     setPromoError('');
     setPromoSuccess('');
 
-    if (promoCode.trim().toUpperCase() === 'SYAB10') {
+    if (promoCode.trim().toUpperCase() === 'ALZAIR10' || promoCode.trim().toUpperCase() === 'SYAB10') {
       const disc = Math.round(subtotal * 0.1);
       setDiscount(disc);
-      setPromoSuccess('Promo code SYAB10 applied! (10% OFF)');
+      setPromoSuccess('Promo code ALZAIR10 applied! (10% OFF)');
     } else if (promoCode.trim().toUpperCase() === 'FIRST50') {
       setDiscount(50);
       setPromoSuccess('Promo code FIRST50 applied! (₹50 OFF)');
     } else {
-      setPromoError('Invalid coupon code. Try SYAB10');
+      setPromoError('Invalid coupon code. Try ALZAIR10');
     }
   };
 
@@ -224,7 +224,7 @@ export function CartContent() {
                   type="text"
                   value={promoCode}
                   onChange={(e) => setPromoCode(e.target.value)}
-                  placeholder="e.g. SYAB10"
+                  placeholder="e.g. ALZAIR10"
                   className="w-full rounded-md border border-[#d5c7b3] bg-white px-3.5 py-2 text-xs text-[#1a1714] uppercase outline-none focus:border-[#a9823b]"
                 />
                 <button
@@ -251,7 +251,7 @@ export function CartContent() {
               <button
                 type="button"
                 onClick={() =>
-                  alert('Thank you for choosing Syab Dates! Checkout gateway is initializing.')
+                  alert('Thank you for choosing Alzair! Checkout gateway is initializing.')
                 }
                 className="w-full flex items-center justify-center gap-2 rounded-full bg-[#b89047] py-3.5 text-xs font-bold tracking-widest text-[#171513] shadow-[0_4px_16px_rgba(184,144,71,0.25)] transition duration-300 hover:bg-[#a67e35] hover:shadow-[0_6px_22px_rgba(184,144,71,0.35)] active:scale-[0.99]"
               >

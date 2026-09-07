@@ -43,14 +43,14 @@ export function MissionAndPromise() {
         </div>
       </section>
 
-      {/* The Syab Promise (Light Section) */}
+      {/* The Alzair Promise (Light Section) */}
       <section className="bg-[#f5f0e7] px-5 py-20 text-[#171513]">
         <div className="mx-auto max-w-[1240px] text-center">
           <p className="text-xs sm:text-[13px] font-bold uppercase tracking-[.25em] text-[#a9823b]">
-            Why Syab Dates
+            Why Alzair
           </p>
           <h2 className="mt-2 text-3xl sm:text-4xl lg:text-[42px] font-semibold tracking-tight text-[#1a1714] font-sans">
-            The Syab Promise
+            The Alzair Promise
           </h2>
 
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">

@@ -12,7 +12,7 @@ export default function AdminMessagesPage() {
       phone: '+91 98450 11223',
       subject: 'Bulk Corporate Gifting Inquiry for Diwali',
       message:
-        'Hello team Syab Dates, we are looking to place a bulk order of 250 Royal Gift Hampers for our corporate staff. Please share the discounted catalog and expected delivery timelines to New Delhi.',
+        'Hello team Alzair, we are looking to place a bulk order of 250 Royal Gift Hampers for our corporate staff. Please share the discounted catalog and expected delivery timelines to New Delhi.',
       date: 'Today, 11:30 AM',
       status: 'unread',
     },

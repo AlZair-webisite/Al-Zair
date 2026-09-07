@@ -8,8 +8,8 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const cormorant = Cormorant_Garamond({ subsets: ['latin'], variable: '--font-cormorant', weight: ['400', '500', '600', '700'] });
 
 export const metadata: Metadata = {
-  title: 'Syab Dates | Premium Dates & Dry Fruits',
-  description: 'Discover premium quality dates, dry fruits, dates laddu, stuffed dates, date bites and luxury gift packs from Syab Dates.',
+  title: 'Alzair | Premium Dates & Dry Fruits',
+  description: 'Discover premium quality dates, dry fruits, dates laddu, stuffed dates, date bites and luxury gift packs from Alzair.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

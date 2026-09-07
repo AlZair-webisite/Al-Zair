@@ -39,7 +39,7 @@ export function ContactMap() {
           {/* Embedded Google Map */}
           <div className="relative h-[380px] sm:h-[450px] w-full">
             <iframe
-              title="Syab Dates Location Map"
+              title="Alzair Location Map"
               src={embedUrl}
               width="100%"
               height="100%"

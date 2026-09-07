@@ -96,8 +96,8 @@ export function Footer() {
             </div>
             <div className="flex items-center gap-2.5">
               <Mail size={16} className="shrink-0 text-[#c49a4a]" />
-              <a href="mailto:syabdatesdryfruits@gmail.com" className="break-all transition-colors hover:text-[#c49a4a]">
-                syabdatesdryfruits@gmail.com
+              <a href="mailto:alzairdates@gmail.com" className="break-all transition-colors hover:text-[#c49a4a]">
+                alzairdates@gmail.com
               </a>
             </div>
             <div className="flex items-start gap-2.5">
@@ -110,7 +110,7 @@ export function Footer() {
 
       {/* Bottom Copyright & Back to Top */}
       <div className="mx-auto flex max-w-[1240px] items-center justify-between pt-6 text-[13px] tracking-wide text-white/70">
-        <span>© 2024 Syab Dates Dry Fruits. All Rights Reserved.</span>
+        <span>© 2024 Alzair Dates Dry Fruits. All Rights Reserved.</span>
         <button
           type="button"
           onClick={scrollToTop}

@@ -10,7 +10,7 @@ export function AboutHero() {
         </p>
 
         <h1 className="mt-4 font-sans text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white">
-          About Syab Dates
+          About Alzair
         </h1>
 
         {/* Decorative Divider */}

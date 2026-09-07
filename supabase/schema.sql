@@ -1,5 +1,5 @@
 -- ==========================================================
--- SYAB DATES DRY FRUITS - DATABASE SCHEMA FOR SUPABASE / POSTGRES
+-- ALZAIR DATES & DRY FRUITS - DATABASE SCHEMA FOR SUPABASE / POSTGRES
 -- ==========================================================
 
 -- 1. EXTENSIONS
@@ -9,7 +9,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE TABLE IF NOT EXISTS public.admins (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     email TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL DEFAULT 'admin@syab2024',
+    password TEXT NOT NULL DEFAULT 'admin@alzair2024',
     full_name TEXT DEFAULT 'Super Admin',
     role TEXT NOT NULL DEFAULT 'admin' CHECK (role IN ('super_admin', 'admin', 'manager')),
     is_active BOOLEAN DEFAULT TRUE,
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS public.admins (
 
 -- Insert default admin account
 INSERT INTO public.admins (email, password, full_name, role)
-VALUES ('admin@syabdates.com', 'admin@syab2024', 'Super Admin', 'super_admin')
+VALUES ('admin@alzair.com', 'admin@alzair2024', 'Super Admin', 'super_admin')
 ON CONFLICT (email) DO NOTHING;
 
 -- 3. PRODUCTS TABLE
@@ -122,12 +122,12 @@ CREATE TABLE IF NOT EXISTS public.homepage_content (
       {"id": "6", "name": "Zainab Noor", "quote": "Ordered gift packs for the whole family. Beautiful presentation and supreme freshness!", "initials": "ZN", "rating": 5}
     ]'::jsonb,
     home_gallery JSONB NOT NULL DEFAULT '[
-      {"id": "1", "image": "https://images.pexels.com/photos/15807109/pexels-photo-15807109.jpeg?auto=compress&cs=tinysrgb&h=900&w=1200", "alt": "Syab Premium Dates"},
+      {"id": "1", "image": "https://images.pexels.com/photos/15807109/pexels-photo-15807109.jpeg?auto=compress&cs=tinysrgb&h=900&w=1200", "alt": "Alzair Premium Dates"},
       {"id": "2", "image": "/images/suffed-dates.jpeg", "alt": "Stuffed Dates with Almonds & Pistachio"},
       {"id": "3", "image": "/images/dates-ladu.jpg", "alt": "Handcrafted Nutty Date Laddu"},
       {"id": "4", "image": "/images/date-bites.jpg", "alt": "Artisanal Chocolate Date Bites"},
       {"id": "5", "image": "/images/hero-image.png", "alt": "Luxury Dates Gift Hamper"},
-      {"id": "6", "image": "/images/dates.jpg", "alt": "Syab Fresh Golden Dates"}
+      {"id": "6", "image": "/images/dates.jpg", "alt": "Alzair Fresh Golden Dates"}
     ]'::jsonb,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
@@ -181,6 +181,6 @@ VALUES
 ('royal-gift-hamper', 'Royal Gift Hamper', 'Gift Packs', 'Gift Products', 1800, NULL, NULL, 5.0, 34, 'https://images.pexels.com/photos/6363145/pexels-photo-6363145.jpeg?auto=compress&cs=tinysrgb&h=800&w=1000', true, 'Hamper Box', false, 220),
 ('pistachio-stuffed-dates', 'Pistachio Stuffed Dates', 'Stuffed Dates', 'Healthy Snacks', 699, NULL, NULL, 4.9, 65, '/images/suffed-dates.jpeg', true, '350g', false, 430),
 ('hazelnut-date-bites', 'Hazelnut Date Bites', 'Date Bites', 'Healthy Snacks', 549, NULL, NULL, 4.7, 82, 'https://images.pexels.com/photos/31325605/pexels-photo-31325605.jpeg?auto=compress&cs=tinysrgb&h=800&w=1000', true, '400g', false, 260),
-('syab-luxury-halasi-pack', 'Syab Luxury Halasi Pack', 'Gift Packs', 'Gift Products', 1299, 1500, '13%', 4.9, 140, '/images/hero-image.png', true, '1kg Gift Box', false, 580),
+('alzair-luxury-halasi-pack', 'Alzair Luxury Halasi Pack', 'Gift Packs', 'Gift Products', 1299, 1500, '13%', 4.9, 140, '/images/hero-image.png', true, '1kg Gift Box', false, 580),
 ('nutty-date-laddu-royal', 'Nutty Date Laddu Royal', 'Dates Laddu', 'Healthy Snacks', 599, NULL, NULL, 4.8, 48, '/images/dates-ladu.jpg', true, '500g', false, 310)
 ON CONFLICT (id) DO NOTHING;

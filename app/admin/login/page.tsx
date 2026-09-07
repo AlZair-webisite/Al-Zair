@@ -34,7 +34,7 @@ function LoginForm() {
       }
 
       if (typeof window !== 'undefined' && data.user) {
-        localStorage.setItem('syab_admin_session', JSON.stringify(data.user));
+        localStorage.setItem('alzair_admin_session', JSON.stringify(data.user));
       }
 
       // Hard redirect to ensure fresh cookies load instantly
@@ -47,8 +47,8 @@ function LoginForm() {
   };
 
   const handleQuickDemo = () => {
-    setEmail('admin@syabdates.com');
-    setPassword('admin@syab2024');
+    setEmail('admin@alzair.com');
+    setPassword('admin@alzair2024');
   };
 
   return (
@@ -105,7 +105,7 @@ function LoginForm() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@syabdates.com"
+                  placeholder="admin@alzair.com"
                   className="w-full rounded-xl border border-white/15 bg-white/5 py-3 pl-10 pr-4 text-xs text-white placeholder:text-white/30 outline-none transition focus:border-[#c49a4a] focus:bg-white/10 focus:ring-1 focus:ring-[#c49a4a]"
                 />
               </div>
@@ -162,7 +162,7 @@ function LoginForm() {
 
         {/* Footer info */}
         <p className="mt-8 text-center text-[11px] text-white/40">
-          © 2024 Syab Dates Dry Fruits. Custom Next.js Admin Backend.
+          © 2024 Alzair. Custom Next.js Admin Backend.
         </p>
       </div>
     </div>

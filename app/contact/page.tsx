@@ -5,8 +5,8 @@ import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 
 export const metadata = {
-  title: 'Contact Us | Syab Dates Dry Fruits',
-  description: 'Reach out to Syab Dates for inquiries, product questions, custom orders, or customer support. We are here to help.',
+  title: 'Contact Us | Alzair Dates & Dry Fruits',
+  description: 'Reach out to Alzair for inquiries, product questions, custom orders, or customer support. We are here to help.',
 };
 
 export default function ContactPage() {

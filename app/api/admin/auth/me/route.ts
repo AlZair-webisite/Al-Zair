@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   const cookieStore = cookies();
-  const sessionCookie = cookieStore.get('syab_admin_session');
+  const sessionCookie = cookieStore.get('alzair_admin_session') || cookieStore.get('syab_admin_session');
 
   if (!sessionCookie || !sessionCookie.value) {
     return NextResponse.json({ authenticated: false }, { status: 401 });

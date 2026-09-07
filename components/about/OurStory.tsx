@@ -28,7 +28,7 @@ export function OurStory() {
 
           <div className="mt-6 space-y-4 text-sm sm:text-[15px] leading-relaxed text-[#4a453e] font-sans">
             <p>
-              Syab Dates was born from a simple belief — that nature&apos;s gifts should be enjoyed in their purest form. We travel to the finest date-growing regions to source premium quality dates, selected with care and packed with love.
+              Alzair was born from a simple belief — that nature&apos;s gifts should be enjoyed in their purest form. We travel to the finest date-growing regions to source premium quality dates, selected with care and packed with love.
             </p>
             <p>
               Our commitment to quality begins at the source. Every batch is handpicked, carefully inspected, and processed in a hygienic environment to ensure you receive nothing but the best.

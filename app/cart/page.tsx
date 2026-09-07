@@ -4,7 +4,7 @@ import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 
 export const metadata = {
-  title: 'Shopping Cart | Syab Dates Dry Fruits',
+  title: 'Shopping Cart | Alzair Dates & Dry Fruits',
   description: 'View your selected premium dates, laddus, bites, and luxury gift packs in your shopping cart.',
 };
 

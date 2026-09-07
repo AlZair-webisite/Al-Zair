@@ -175,8 +175,8 @@ export const allProducts: Product[] = [
     salesCount: 260,
   },
   {
-    id: 'syab-luxury-halasi-pack',
-    name: 'Syab Luxury Halasi Pack',
+    id: 'alzair-luxury-halasi-pack',
+    name: 'Alzair Luxury Halasi Pack',
     category: 'Gift Packs',
     productType: 'Gift Products',
     price: 1299,

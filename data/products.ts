@@ -31,16 +31,16 @@ export const categories: ProductCategory[] = [
   { name: 'Dates Laddu', image: images.categoryDatesLaddu, alt: 'Dates laddu stack' },
   { name: 'Stuffed Dates', image: images.categoryStuffedDates, alt: 'Stuffed dates presentation' },
   { name: 'Date Bites', image: images.categoryDateBites, alt: 'Date bites pyramid' },
-  { name: 'Gift Packs', image: images.categoryGiftPacks, alt: 'Syab Dates luxury gift pack' },
+  { name: 'Gift Packs', image: images.categoryGiftPacks, alt: 'Alzair luxury gift pack' },
 ];
 
 export const galleryImages = [
   { image: images.categoryDates, alt: 'Glossy Medjool dates in bowl', category: 'Dates' },
-  { image: images.hero, alt: 'Syab Dates Halasi presentation', category: 'Packaging' },
+  { image: images.hero, alt: 'Alzair Halasi presentation', category: 'Packaging' },
   { image: images.categoryDatesLaddu, alt: 'Dates laddu pyramid', category: 'Products' },
   { image: images.categoryStuffedDates, alt: 'Stuffed dates close-up', category: 'Dates' },
   { image: images.categoryDateBites, alt: 'Date bites pyramid', category: 'Products' },
-  { image: images.categoryGiftPacks, alt: 'Syab Dates luxury gift pack', category: 'Gift Packs' },
+  { image: images.categoryGiftPacks, alt: 'Alzair luxury gift pack', category: 'Gift Packs' },
   { image: images.footer, alt: 'Handwoven basket of premium dates', category: 'Packaging' },
   { image: images.truffles, alt: 'Date truffles on marble', category: 'Products' },
   { image: images.macroDates, alt: 'Premium Medjool dates', category: 'Dates' },

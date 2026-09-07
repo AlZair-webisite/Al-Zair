@@ -4,8 +4,8 @@ import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 
 export const metadata = {
-  title: 'All Products | Syab Dates Dry Fruits',
-  description: 'Shop our full collection of premium Arabian dates, stuffed dates, date laddus, date bites, and luxury gift packs from Syab Dates.',
+  title: 'All Products | Alzair Dates & Dry Fruits',
+  description: 'Shop our full collection of premium Arabian dates, stuffed dates, date laddus, date bites, and luxury gift packs from Alzair.',
 };
 
 export default function ProductsPage() {

@@ -113,8 +113,8 @@ export async function POST() {
         .from('admins')
         .upsert(
           {
-            email: 'admin@syabdates.com',
-            password: 'admin@syab2024',
+            email: 'admin@alzair.com',
+            password: 'admin@alzair2024',
             full_name: 'Super Admin',
             role: 'super_admin',
           },

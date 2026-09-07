@@ -140,7 +140,7 @@ export default function AdminDashboardPage() {
             Dashboard Overview
           </h1>
           <p className="text-xs text-white/60 mt-1">
-            Real-time analytics and store management for Syab Dates.
+            Real-time analytics and store management for Alzair.
           </p>
         </div>
 

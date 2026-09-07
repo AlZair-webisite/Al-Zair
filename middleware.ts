@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
   // 1. ==================== ADMIN UI ROUTE PROTECTION ====================
   if (pathname.startsWith('/admin')) {
     const isLoginPage = pathname === '/admin/login';
-    const sessionCookie = request.cookies.get('syab_admin_session');
+    const sessionCookie = request.cookies.get('alzair_admin_session') || request.cookies.get('syab_admin_session');
 
     let isValidSession = false;
     if (sessionCookie && sessionCookie.value) {
@@ -36,7 +36,7 @@ export function middleware(request: NextRequest) {
 
   // 2. ==================== ADMIN API ROUTE PROTECTION ====================
   if (pathname.startsWith('/api/admin') && !pathname.startsWith('/api/admin/auth')) {
-    const sessionCookie = request.cookies.get('syab_admin_session');
+    const sessionCookie = request.cookies.get('alzair_admin_session') || request.cookies.get('syab_admin_session');
     let isValidSession = false;
 
     if (sessionCookie && sessionCookie.value) {

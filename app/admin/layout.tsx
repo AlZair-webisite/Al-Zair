@@ -35,11 +35,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     // Verify session via custom API & localStorage
     const verifySession = async () => {
       try {
-        const localSession = typeof window !== 'undefined' ? localStorage.getItem('syab_admin_session') : null;
+        const localSession =
+          typeof window !== 'undefined'
+            ? localStorage.getItem('alzair_admin_session') || localStorage.getItem('syab_admin_session')
+            : null;
 
         if (localSession) {
           const parsed = JSON.parse(localSession);
-          setAdminEmail(parsed.email || 'admin@syabdates.com');
+          setAdminEmail(parsed.email || 'admin@alzair.com');
           setCheckingAuth(false);
           return;
         }
@@ -66,6 +69,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       await fetch('/api/admin/auth/logout', { method: 'POST' });
     } catch {}
     if (typeof window !== 'undefined') {
+      localStorage.removeItem('alzair_admin_session');
       localStorage.removeItem('syab_admin_session');
       window.location.href = '/admin/login';
     } else {

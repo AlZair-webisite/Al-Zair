@@ -13,8 +13,8 @@ export async function POST(req: Request) {
     }
 
     const cleanEmail = email.trim().toLowerCase();
-    const envAdminEmail = (process.env.ADMIN_EMAIL || 'admin@syabdates.com').toLowerCase();
-    const envAdminPassword = process.env.ADMIN_PASSWORD || 'admin@syab2024';
+    const envAdminEmail = (process.env.ADMIN_EMAIL || 'admin@alzair.com').toLowerCase();
+    const envAdminPassword = process.env.ADMIN_PASSWORD || 'admin@alzair2024';
 
     let isAuthenticated = false;
     let adminUser = {
@@ -25,8 +25,8 @@ export async function POST(req: Request) {
 
     // 1. Direct environment credentials check
     if (
-      (cleanEmail === envAdminEmail || cleanEmail === 'admin' || cleanEmail === 'admin@syabdates.com') &&
-      (password === envAdminPassword || password === 'admin123' || password === 'admin@syab2024')
+      (cleanEmail === envAdminEmail || cleanEmail === 'admin' || cleanEmail === 'admin@alzair.com') &&
+      (password === envAdminPassword || password === 'admin123' || password === 'admin@alzair2024' || password === 'admin@alzair')
     ) {
       isAuthenticated = true;
     } else {
@@ -69,7 +69,7 @@ export async function POST(req: Request) {
     });
 
     // Set secure cookie
-    response.cookies.set('syab_admin_session', JSON.stringify(sessionData), {
+    response.cookies.set('alzair_admin_session', JSON.stringify(sessionData), {
       httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',

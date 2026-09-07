@@ -111,7 +111,7 @@ export const defaultHomepageContent: HomepageContent = {
       id: '1',
       image:
         'https://images.pexels.com/photos/15807109/pexels-photo-15807109.jpeg?auto=compress&cs=tinysrgb&h=900&w=1200',
-      alt: 'Syab Premium Dates',
+      alt: 'Alzair Premium Dates',
     },
     {
       id: '2',
@@ -136,7 +136,7 @@ export const defaultHomepageContent: HomepageContent = {
     {
       id: '6',
       image: '/images/dates.jpg',
-      alt: 'Syab Fresh Golden Dates',
+      alt: 'Alzair Fresh Golden Dates',
     },
   ],
 };

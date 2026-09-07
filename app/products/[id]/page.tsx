@@ -94,15 +94,15 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
   if (!product) {
     return {
-      title: 'Product Not Found | Syab Dates',
+      title: 'Product Not Found | Alzair',
     };
   }
 
   return {
-    title: `${product.name} | Syab Dates Dry Fruits`,
+    title: `${product.name} | Alzair Dates & Dry Fruits`,
     description:
       product.shortDescription ||
-      `Buy premium ${product.name} at best price with 100% natural quality guaranteed from Syab Dates.`,
+      `Buy premium ${product.name} at best price with 100% natural quality guaranteed from Alzair.`,
   };
 }
 

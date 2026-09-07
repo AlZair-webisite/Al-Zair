@@ -355,7 +355,7 @@ export default function AdminHomePageEditor() {
           ? {
               ...item,
               image: galleryForm.image.trim(),
-              alt: galleryForm.alt.trim() || 'Syab Dates Premium',
+              alt: galleryForm.alt.trim() || 'Alzair Premium Dates',
             }
           : item
       );
@@ -363,7 +363,7 @@ export default function AdminHomePageEditor() {
       const newItem: HomeGalleryItem = {
         id: Date.now().toString(),
         image: galleryForm.image.trim(),
-        alt: galleryForm.alt.trim() || 'Syab Dates Premium',
+        alt: galleryForm.alt.trim() || 'Alzair Premium Dates',
       };
       updatedGallery = [...content.home_gallery, newItem];
     }
@@ -814,7 +814,7 @@ export default function AdminHomePageEditor() {
 
                 <div className="mt-3 flex items-center justify-between">
                   <span className="text-[11px] text-white/80 font-medium truncate flex-1 pr-2">
-                    {img.alt || 'Syab Dates Photo'}
+                    {img.alt || 'Alzair Photo'}
                   </span>
 
                   <div className="flex items-center gap-1 shrink-0">
@@ -1145,7 +1145,7 @@ export default function AdminHomePageEditor() {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Syab Premium Dates Gift Box"
+                  placeholder="e.g. Alzair Premium Dates Gift Box"
                   value={galleryForm.alt}
                   onChange={(e) => setGalleryForm({ ...galleryForm, alt: e.target.value })}
                   className="w-full rounded-xl border border-white/15 bg-white/5 p-3 text-white placeholder:text-white/30 outline-none focus:border-[#c49a4a]"

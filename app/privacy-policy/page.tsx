@@ -4,8 +4,8 @@ import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 
 export const metadata = {
-  title: 'Privacy Policy | Syab Dates Dry Fruits',
-  description: 'Read the Privacy Policy for Syab Dates Dry Fruits regarding the collection, use, and protection of your personal information.',
+  title: 'Privacy Policy | Alzair Dates & Dry Fruits',
+  description: 'Read the Privacy Policy for Alzair Dates & Dry Fruits regarding the collection, use, and protection of your personal information.',
 };
 
 export default function PrivacyPolicyPage() {
