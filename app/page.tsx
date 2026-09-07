@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { Gallery } from '@/components/home/Gallery';
@@ -8,18 +10,65 @@ import { ProductCategories } from '@/components/home/ProductCategories';
 import { Testimonials } from '@/components/home/Testimonials';
 import { TrustBar } from '@/components/home/TrustBar';
 import { WhyChooseUs } from '@/components/home/WhyChooseUs';
+import { defaultHomepageContent, HomepageContent } from '@/data/homepageContent';
+import { supabaseAdmin } from '@/lib/supabase/admin';
 
-export default function Home() {
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+function getSavedServerContent(): HomepageContent | null {
+  try {
+    const filePath = path.join(process.cwd(), 'data', 'homepageContent.json');
+    if (fs.existsSync(filePath)) {
+      const raw = fs.readFileSync(filePath, 'utf-8');
+      return JSON.parse(raw);
+    }
+  } catch {}
+  return null;
+}
+
+async function getHomepageContent(): Promise<HomepageContent> {
+  // 1. Check PostgreSQL in Supabase
+  try {
+    const { data, error } = await supabaseAdmin
+      .from('homepage_content')
+      .select('*')
+      .eq('id', 'main_homepage')
+      .single();
+
+    if (!error && data) {
+      return {
+        hero: data.hero || defaultHomepageContent.hero,
+        featured_products: data.featured_products || defaultHomepageContent.featured_products,
+        testimonials: data.testimonials || defaultHomepageContent.testimonials,
+        home_gallery: data.home_gallery || defaultHomepageContent.home_gallery,
+      };
+    }
+  } catch {}
+
+  // 2. Check saved server backend JSON file
+  const saved = getSavedServerContent();
+  if (saved) {
+    return saved;
+  }
+
+  // 3. Fallback to default
+  return defaultHomepageContent;
+}
+
+export default async function Home() {
+  const content = await getHomepageContent();
+
   return (
     <main className="overflow-hidden bg-[#f5f0e7] text-[#171513]">
       <Header />
-      <Hero />
+      <Hero data={content.hero} />
       <TrustBar />
-      <ProductCategories />
+      <ProductCategories items={content.featured_products} />
       <WhyChooseUs />
       <HealthBenefits />
-      <Gallery />
-      <Testimonials />
+      <Gallery items={content.home_gallery} />
+      <Testimonials items={content.testimonials} />
       <Newsletter />
       <Footer />
     </main>

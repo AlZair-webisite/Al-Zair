@@ -34,7 +34,7 @@ export function MissionAndPromise() {
       {/* Mission Banner (Dark Section) */}
       <section className="hero-texture relative bg-[#0d0d0b] px-5 py-20 text-white text-center">
         <div className="mx-auto max-w-[900px]">
-          <p className="text-[11px] font-semibold uppercase tracking-[.28em] text-[#a9823b]">
+          <p className="text-xs sm:text-[13px] font-bold uppercase tracking-[.25em] text-[#a9823b]">
             Our Mission
           </p>
           <blockquote className="mt-5 text-xl sm:text-2xl lg:text-[28px] font-sans font-normal leading-relaxed text-white/95">
@@ -46,7 +46,7 @@ export function MissionAndPromise() {
       {/* The Syab Promise (Light Section) */}
       <section className="bg-[#f5f0e7] px-5 py-20 text-[#171513]">
         <div className="mx-auto max-w-[1240px] text-center">
-          <p className="text-[11px] font-semibold uppercase tracking-[.28em] text-[#a9823b]">
+          <p className="text-xs sm:text-[13px] font-bold uppercase tracking-[.25em] text-[#a9823b]">
             Why Syab Dates
           </p>
           <h2 className="mt-2 text-3xl sm:text-4xl lg:text-[42px] font-semibold tracking-tight text-[#1a1714] font-sans">
@@ -67,7 +67,7 @@ export function MissionAndPromise() {
                   <h3 className="text-[15px] font-semibold text-[#1a1714] font-sans">
                     {item.title}
                   </h3>
-                  <p className="mt-2 text-xs leading-5 text-[#5e5850] font-sans">
+                  <p className="mt-2 text-xs sm:text-[13px] leading-snug text-[#5e5850] font-sans">
                     {item.desc}
                   </p>
                 </div>

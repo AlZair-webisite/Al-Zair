@@ -10,17 +10,21 @@ const reasons = [
 
 export function WhyChooseUs() {
   return (
-    <section id="about" className="grid bg-[#0d0d0b] text-white lg:grid-cols-2">
-      <div className="hero-texture flex flex-col justify-center px-8 py-16 sm:px-16 lg:px-[13%] lg:py-20">
-        <p className="text-[9px] font-semibold uppercase tracking-[.24em] text-[#a9823b]">Why Choose Us?</p>
-        <h2 className="mt-3 max-w-[390px] font-serif text-4xl leading-[1.03] sm:text-5xl">Experience Purity<br />In Every Bite</h2>
-        <div className="mt-9 space-y-5">
+    <section id="about" className="grid bg-[#0d0d0b] text-white lg:grid-cols-2 font-sans">
+      <div className="hero-texture flex flex-col justify-center px-8 py-16 sm:px-16 lg:px-[12%] lg:py-20">
+        <p className="text-xs sm:text-[13px] font-bold uppercase tracking-[.25em] text-[#c49a4a]">Why Choose Us?</p>
+        <h2 className="mt-3 max-w-[440px] font-serif text-3xl sm:text-4xl lg:text-5xl leading-[1.08]">
+          Experience Purity<br />In Every Bite
+        </h2>
+        <div className="mt-9 space-y-6">
           {reasons.map(([title, copy], index) => (
-            <div key={title} className="flex items-center gap-4">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[#a9823b] text-[10px] text-[#c49a4a]">0{index + 1}</span>
+            <div key={title} className="flex items-start gap-4">
+              <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#c49a4a] text-xs font-bold text-[#d6b15e]">
+                0{index + 1}
+              </span>
               <div>
-                <h3 className="text-xs font-semibold text-[#c49a4a]">{title}</h3>
-                <p className="mt-1 text-[10px] text-white/55">{copy}</p>
+                <h3 className="text-sm sm:text-[15px] font-semibold text-[#e4c274]">{title}</h3>
+                <p className="mt-1 text-xs sm:text-[13.5px] leading-relaxed text-white/75">{copy}</p>
               </div>
             </div>
           ))}

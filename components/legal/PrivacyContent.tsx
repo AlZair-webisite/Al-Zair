@@ -77,7 +77,7 @@ const policyCards = [
     icon: Phone,
     title: 'Contact Us',
     content:
-      'If you have any questions or concerns about this Privacy Policy, please contact us at syabdatesdryfruits@gmail.com or call +91 98732 57313.',
+      'If you have any questions or concerns about this Privacy Policy, please contact us at syabdatesdryfruits@gmail.com or call +91 7052375313.',
   },
 ];
 

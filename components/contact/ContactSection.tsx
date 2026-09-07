@@ -27,7 +27,7 @@ export function ContactSection() {
       <div className="mx-auto max-w-[1240px] grid gap-12 lg:grid-cols-[1fr_1.3fr] lg:gap-16 items-start">
         {/* Left: Contact Information */}
         <div className="flex flex-col justify-center">
-          <p className="text-[11px] font-semibold uppercase tracking-[.28em] text-[#a9823b]">
+          <p className="text-xs sm:text-[13px] font-bold uppercase tracking-[.25em] text-[#a9823b]">
             Contact Information
           </p>
           <h2 className="mt-2 text-3xl sm:text-4xl lg:text-[42px] font-semibold tracking-tight text-[#1a1714] font-sans">
@@ -44,14 +44,14 @@ export function ContactSection() {
                 <Phone size={18} strokeWidth={1.5} />
               </div>
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#a9823b]">
+                <p className="text-xs font-bold uppercase tracking-[.15em] text-[#a9823b]">
                   Phone
                 </p>
                 <a
-                  href="tel:+919873257313"
-                  className="mt-1 block text-sm font-semibold text-[#1a1714] hover:text-[#a9823b] transition-colors"
+                  href="tel:+917052375313"
+                  className="mt-1 block text-[15px] font-semibold text-[#1a1714] hover:text-[#a9823b] transition-colors"
                 >
-                  +91 98732 57313
+                  +91 7052375313
                 </a>
               </div>
             </div>
@@ -62,12 +62,12 @@ export function ContactSection() {
                 <Mail size={18} strokeWidth={1.5} />
               </div>
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#a9823b]">
+                <p className="text-xs font-bold uppercase tracking-[.15em] text-[#a9823b]">
                   Email
                 </p>
                 <a
                   href="mailto:syabdatesdryfruits@gmail.com"
-                  className="mt-1 block text-sm font-semibold text-[#1a1714] hover:text-[#a9823b] transition-colors"
+                  className="mt-1 block text-[15px] font-semibold text-[#1a1714] hover:text-[#a9823b] transition-colors"
                 >
                   syabdatesdryfruits@gmail.com
                 </a>
@@ -80,10 +80,10 @@ export function ContactSection() {
                 <MapPin size={18} strokeWidth={1.5} />
               </div>
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#a9823b]">
+                <p className="text-xs font-bold uppercase tracking-[.15em] text-[#a9823b]">
                   Address
                 </p>
-                <p className="mt-1 text-sm font-semibold text-[#1a1714]">
+                <p className="mt-1 text-[15px] font-semibold text-[#1a1714]">
                   Madanpur Khadar, New Delhi - 110076
                 </p>
               </div>
@@ -95,10 +95,10 @@ export function ContactSection() {
                 <Clock size={18} strokeWidth={1.5} />
               </div>
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#a9823b]">
+                <p className="text-xs font-bold uppercase tracking-[.15em] text-[#a9823b]">
                   Business Hours
                 </p>
-                <p className="mt-1 text-sm font-semibold text-[#1a1714]">
+                <p className="mt-1 text-[15px] font-semibold text-[#1a1714]">
                   Mon - Sat: 9:00 AM - 7:00 PM
                 </p>
               </div>

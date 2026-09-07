@@ -50,7 +50,7 @@ export function GalleryGrid() {
                 key={tab}
                 type="button"
                 onClick={() => setActiveTab(tab)}
-                className={`rounded-full px-5 py-2 text-[11px] font-bold tracking-[.18em] uppercase transition duration-200 ${
+                className={`rounded-full px-6 py-2.5 text-xs sm:text-[12.5px] font-bold tracking-[.16em] uppercase transition duration-200 ${
                   isActive
                     ? 'bg-[#b89047] text-[#171513] shadow-[0_4px_14px_rgba(184,144,71,0.3)]'
                     : 'border border-[#dccbb4] bg-white/60 text-[#554e44] hover:border-[#b89047] hover:text-[#171513]'

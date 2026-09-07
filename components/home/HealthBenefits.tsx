@@ -66,11 +66,11 @@ export function HealthBenefits() {
         <div className="mt-12 grid grid-cols-2 gap-y-10 sm:grid-cols-3 lg:grid-cols-5 lg:gap-8">
           {benefits.map(([title, copy, Icon]) => (
             <div key={title} className="flex flex-col items-center">
-              <Icon size={34} className="mx-auto text-[#b89047]" />
-              <h3 className="mt-4 font-sans text-xs font-semibold tracking-tight text-[#171513] sm:text-[13px]">
+              <Icon size={36} className="mx-auto text-[#b89047]" />
+              <h3 className="mt-4 font-sans text-sm font-semibold tracking-tight text-[#171513] sm:text-[15px]">
                 {title}
               </h3>
-              <p className="mx-auto mt-1 max-w-[140px] font-sans text-[10px] leading-4 text-[#5e5a52] sm:text-[11px]">
+              <p className="mx-auto mt-1.5 max-w-[160px] font-sans text-xs leading-relaxed text-[#5e5a52] sm:text-[13px]">
                 {copy}
               </p>
             </div>

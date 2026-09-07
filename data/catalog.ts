@@ -1,8 +1,8 @@
 export type Product = {
   id: string;
   name: string;
-  category: 'Dates' | 'Dates Laddu' | 'Stuffed Dates' | 'Date Bites' | 'Gift Packs';
-  productType: 'Premium Dates' | 'Healthy Snacks' | 'Gift Products';
+  category: string;
+  productType?: string;
   price: number;
   originalPrice?: number;
   discount?: string;
@@ -46,7 +46,7 @@ export const allProducts: Product[] = [
     price: 850,
     rating: 4.9,
     reviews: 89,
-    image: 'https://images.pexels.com/photos/15807109/pexels-photo-15807109.jpeg?auto=compress&cs=tinysrgb&h=900&w=1200',
+    image: '/images/dates.jpg',
     inStock: true,
     weight: '500g',
     isNew: true,
@@ -88,10 +88,23 @@ export const allProducts: Product[] = [
     price: 550,
     rating: 4.8,
     reviews: 73,
-    image: 'https://images.pexels.com/photos/8996217/pexels-photo-8996217.jpeg?auto=compress&cs=tinysrgb&h=800&w=1000',
+    image: '/images/suffed-dates.jpeg',
     inStock: true,
     weight: '350g',
     salesCount: 310,
+  },
+  {
+    id: 'cashew-stuffed-dates',
+    name: 'Cashew Stuffed Dates',
+    category: 'Stuffed Dates',
+    productType: 'Healthy Snacks',
+    price: 640,
+    rating: 4.8,
+    reviews: 52,
+    image: '/images/suffed-dates.jpeg',
+    inStock: true,
+    weight: '350g',
+    salesCount: 210,
   },
   {
     id: 'chocolate-date-bites',
@@ -117,7 +130,7 @@ export const allProducts: Product[] = [
     discount: '14%',
     rating: 4.9,
     reviews: 87,
-    image: 'https://images.pexels.com/photos/30709483/pexels-photo-30709483.jpeg?auto=compress&cs=tinysrgb&h=800&w=1000',
+    image: '/images/gift-packs.jpg',
     inStock: true,
     weight: 'Luxury Box',
     salesCount: 390,
@@ -130,7 +143,7 @@ export const allProducts: Product[] = [
     price: 1800,
     rating: 5.0,
     reviews: 34,
-    image: 'https://images.pexels.com/photos/6363145/pexels-photo-6363145.jpeg?auto=compress&cs=tinysrgb&h=800&w=1000',
+    image: '/images/gift-packs.jpg',
     inStock: true,
     weight: 'Hamper Box',
     salesCount: 220,

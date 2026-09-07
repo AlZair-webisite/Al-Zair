@@ -31,26 +31,26 @@ export function Newsletter() {
 
           {/* Center Text */}
           <div className="flex-1 text-center lg:text-left">
-            <p className="text-[10px] font-semibold uppercase tracking-[.28em] text-[#a9823b]">Stay Connected</p>
+            <p className="text-xs sm:text-[13px] font-bold uppercase tracking-[.25em] text-[#a9823b]">Stay Connected</p>
             <h2 className="mt-1.5 font-serif text-3xl sm:text-4xl text-white">Subscribe To Our Newsletter</h2>
-            <p className="mt-2 max-w-[460px] text-xs leading-5 text-white/60">
+            <p className="mt-2 max-w-[480px] text-sm leading-relaxed text-white/75 sm:text-[14.5px]">
               Get the latest updates on new products, offers and health tips straight to your inbox.
             </p>
           </div>
 
           {/* Right Subscribe Form */}
-          <form onSubmit={submit} className="flex w-full max-w-[440px] items-stretch shadow-md">
+          <form onSubmit={submit} className="flex w-full max-w-[460px] items-stretch shadow-md">
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email address"
-              className="min-w-0 flex-1 border border-[#c49a4a]/40 bg-[#14120e] px-4 py-3 text-xs text-white outline-none placeholder:text-white/35 focus:border-[#c49a4a]"
+              className="min-w-0 flex-1 border border-[#c49a4a]/40 bg-[#14120e] px-4 py-3.5 text-sm text-white outline-none placeholder:text-white/40 focus:border-[#c49a4a]"
             />
             <button
               type="submit"
-              className="shrink-0 bg-[#b89047] px-6 py-3 text-[10px] font-bold tracking-[.18em] text-[#171513] transition hover:bg-[#a67e35]"
+              className="shrink-0 bg-[#b89047] px-7 py-3.5 text-xs sm:text-[12.5px] font-bold tracking-[.16em] text-[#171513] transition hover:bg-[#a67e35]"
             >
               {subscribed ? 'SUBSCRIBED' : 'SUBSCRIBE'}
             </button>

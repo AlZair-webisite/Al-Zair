@@ -9,7 +9,7 @@ export function SectionHeading({
 }) {
   return (
     <div className="text-center">
-      <p className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[.28em] text-[#a9823b]">{eyebrow}</p>
+      <p className="text-xs sm:text-[13px] font-bold uppercase tracking-[.25em] text-[#a9823b]">{eyebrow}</p>
       <h2
         className={`mt-2 ${
           fontFamily === 'sans'

@@ -2,21 +2,26 @@
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
-import { galleryImages } from '@/data/products';
+import { HomeGalleryItem, defaultHomepageContent } from '@/data/homepageContent';
 
-export function Gallery() {
+interface GalleryProps {
+  items?: HomeGalleryItem[];
+}
+
+export function Gallery({ items }: GalleryProps) {
+  const galleryList = items && items.length > 0 ? items : defaultHomepageContent.home_gallery;
   const [page, setPage] = useState(0);
-  const totalPages = Math.ceil(galleryImages.length / 4);
+  const totalPages = Math.max(1, Math.ceil(galleryList.length / 4));
 
   const move = (dir: number) => {
     setPage((prev) => (prev + dir + totalPages) % totalPages);
   };
 
   return (
-    <section id="gallery" className="relative bg-[#0d0d0b] px-4 py-14 text-white sm:px-6 sm:py-16 lg:px-6 lg:py-12 xl:px-8">
+    <section id="gallery" className="relative bg-[#0d0d0b] px-4 py-14 text-white sm:px-6 sm:py-16 lg:px-6 lg:py-12 xl:px-8 font-sans">
       <div className="mx-auto flex max-w-[1360px] flex-col gap-8 lg:flex-row lg:items-center lg:justify-between lg:gap-4 xl:gap-6">
-        
         {/* Desktop Left Navigation Button */}
         <button
           type="button"
@@ -32,12 +37,12 @@ export function Gallery() {
           <h2 className="font-serif text-3xl leading-[1.12] text-white sm:text-4xl lg:text-[38px] xl:text-[42px]">
             A Glimpse Of<br />Our Goodness
           </h2>
-          <a
-            href="#gallery"
-            className="mt-6 inline-flex rounded-full bg-[#b89047] px-6 py-2.5 text-[10px] font-bold tracking-[.18em] text-[#171513] transition hover:bg-[#a67e35]"
+          <Link
+            href="/gallery"
+            className="mt-6 inline-flex rounded-full bg-[#b89047] px-7 py-3 text-xs sm:text-[12.5px] font-bold tracking-[.16em] text-[#171513] shadow-md transition hover:bg-[#a67e35]"
           >
             VIEW GALLERY
-          </a>
+          </Link>
         </div>
 
         {/* Images Carousel Container */}
@@ -52,9 +57,9 @@ export function Gallery() {
             <ChevronLeft size={22} />
           </button>
 
-          {/* 4 Gallery Images */}
+          {/* Gallery Images Slice */}
           <div className="grid min-w-0 flex-1 grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 lg:gap-3 xl:gap-3.5">
-            {galleryImages.slice(page * 4, page * 4 + 4).map((item, idx) => (
+            {galleryList.slice(page * 4, page * 4 + 4).map((item, idx) => (
               <div
                 key={`${item.image}-${page}-${idx}`}
                 className="group relative aspect-square overflow-hidden rounded-xl border border-[#c49a4a]/50 bg-[#171512] shadow-[0_6px_20px_rgba(0,0,0,0.4)] transition-all duration-300"
@@ -91,7 +96,6 @@ export function Gallery() {
         >
           <ChevronRight size={18} />
         </button>
-
       </div>
     </section>
   );

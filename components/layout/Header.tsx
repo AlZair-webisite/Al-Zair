@@ -3,10 +3,10 @@
 import { ChevronDown, Menu, Search, ShoppingBag, UserRound, X } from 'lucide-react';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useCart } from '@/context/CartContext';
 
-const productCategories = [
+const defaultCategories = [
   'Dates',
   'Dates Laddu',
   'Stuffed Dates',
@@ -23,27 +23,41 @@ export function Header() {
   const isProducts = pathname === '/products';
   const isHome = !isAbout && !isContact && !isGallery && !isProducts && pathname !== '/cart';
 
+  const [categories, setCategories] = useState<string[]>(defaultCategories);
   const [open, setOpen] = useState(false);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
+  useEffect(() => {
+    async function loadCategories() {
+      try {
+        const res = await fetch('/api/categories');
+        const json = await res.json();
+        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+          setCategories(json.data);
+        }
+      } catch {}
+    }
+    loadCategories();
+  }, []);
+
   return (
     <header className="absolute inset-x-0 top-0 z-30 border-b border-white/10 bg-black/20 text-white backdrop-blur-[2px]">
-      <div className="mx-auto flex h-[74px] max-w-[1240px] items-center justify-between px-5 lg:px-8">
+      <div className="mx-auto flex h-[90px] sm:h-[100px] lg:h-[108px] max-w-[1240px] items-center justify-between px-5 lg:px-8">
         {/* Brand Logo */}
-        <a href="/" className="flex items-center" aria-label="Syab Dates home">
+        <a href="/" className="flex items-center py-1" aria-label="Al Zair home">
           <Image
             src="/images/logo.png"
-            alt="Syab Dates Dry Fruits"
-            width={240}
-            height={76}
-            className="h-8 w-auto object-contain sm:h-9"
+            alt="Al Zair"
+            width={360}
+            height={120}
+            className="h-14 sm:h-18 lg:h-20 w-auto object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] transition-transform duration-300 hover:scale-105"
             priority
           />
         </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-7 text-[13.5px] font-medium tracking-wide lg:flex">
+        <nav className="hidden items-center gap-7 text-[15px] font-medium tracking-wide lg:flex">
           <a
             href="/"
             className={`transition-colors ${
@@ -62,24 +76,24 @@ export function Header() {
               }`}
             >
               Products
-              <ChevronDown size={13} className="text-[#c49a4a] transition-transform duration-200 group-hover:rotate-180" />
+              <ChevronDown size={14} className="text-[#c49a4a] transition-transform duration-200 group-hover:rotate-180" />
             </a>
 
             {/* Dropdown Menu */}
-            <div className="invisible absolute left-0 top-full -mt-1 w-48 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 z-50">
-              <div className="rounded-lg border border-[#c49a4a]/40 bg-[#0d0d0b]/95 p-2 shadow-2xl backdrop-blur-md">
+            <div className="invisible absolute left-0 top-full -mt-1 w-52 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 z-50">
+              <div className="rounded-lg border border-[#c49a4a]/40 bg-[#0d0d0b]/95 p-2.5 shadow-2xl backdrop-blur-md">
                 <a
                   href="/products"
-                  className="block rounded-md px-3 py-2 text-xs font-bold text-white/95 transition-colors hover:bg-[#c49a4a]/15 hover:text-[#d6b15e]"
+                  className="block rounded-md px-3 py-2 text-xs sm:text-[13px] font-bold text-white/95 transition-colors hover:bg-[#c49a4a]/15 hover:text-[#d6b15e]"
                 >
                   All Products
                 </a>
                 <div className="my-1 border-t border-white/10" />
-                {productCategories.map((item) => (
+                {categories.map((item) => (
                   <a
                     key={item}
                     href={`/products?category=${encodeURIComponent(item)}`}
-                    className="block rounded-md px-3 py-1.5 text-xs text-white/85 transition-colors hover:bg-[#c49a4a]/15 hover:text-[#d6b15e]"
+                    className="block rounded-md px-3 py-1.5 text-xs sm:text-[13px] text-white/85 transition-colors hover:bg-[#c49a4a]/15 hover:text-[#d6b15e]"
                   >
                     {item}
                   </a>
@@ -211,7 +225,7 @@ export function Header() {
                     All Products
                   </a>
                   <div className="my-0.5 border-t border-white/10" />
-                  {productCategories.map((cat) => (
+                  {categories.map((cat) => (
                     <a
                       key={cat}
                       href={`/products?category=${encodeURIComponent(cat)}`}

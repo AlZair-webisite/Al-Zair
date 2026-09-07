@@ -16,7 +16,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Product, getRelatedProducts } from '@/data/catalog';
 import { useCart } from '@/context/CartContext';
 
@@ -28,15 +28,33 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
   const router = useRouter();
   const { addToCart } = useCart();
 
-  // Gallery Thumbnails
-  const defaultGallery = [
-    product.image,
-    'https://images.pexels.com/photos/15807109/pexels-photo-15807109.jpeg?auto=compress&cs=tinysrgb&h=900&w=1200',
-    'https://images.pexels.com/photos/8996217/pexels-photo-8996217.jpeg?auto=compress&cs=tinysrgb&h=800&w=1000',
-  ];
-  const gallery = product.galleryImages && product.galleryImages.length > 0 ? product.galleryImages : defaultGallery;
+  // Product Images Gallery (Main Image + Additional Uploaded Images)
+  const gallery = useMemo(() => {
+    const list: string[] = [];
+    if (product.image && typeof product.image === 'string' && product.image.trim()) {
+      list.push(product.image.trim());
+    }
+    if (product.galleryImages && Array.isArray(product.galleryImages)) {
+      product.galleryImages.forEach((img) => {
+        if (img && typeof img === 'string' && img.trim() && !list.includes(img.trim())) {
+          list.push(img.trim());
+        }
+      });
+    }
+    return list.length > 0 ? list : ['/images/dates.jpg'];
+  }, [product.galleryImages, product.image]);
 
-  const [activeImage, setActiveImage] = useState(gallery[0]);
+  const [activeImage, setActiveImage] = useState<string>(
+    product.image || (product.galleryImages && product.galleryImages[0]) || '/images/dates.jpg'
+  );
+
+  useEffect(() => {
+    if (gallery.length > 0) {
+      setActiveImage(gallery[0]);
+    } else if (product.image) {
+      setActiveImage(product.image);
+    }
+  }, [gallery, product.image]);
   const [quantity, setQuantity] = useState(1);
   const [openAccordion, setOpenAccordion] = useState<string | null>('DESCRIPTION');
   const [wishlist, setWishlist] = useState<Record<string, boolean>>({});
@@ -83,24 +101,24 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
   return (
     <div className="min-h-screen bg-[#f7f2ea] text-[#1a1714]">
       {/* Top Banner with Breadcrumbs */}
-      <div className="hero-texture bg-[#0d0d0b] pt-28 pb-10 px-5 text-white">
+      <div className="hero-texture bg-[#0d0d0b] pt-36 pb-10 px-5 text-white sm:pt-40 sm:pb-12 lg:pt-44">
         <div className="mx-auto max-w-[1200px]">
-          <nav className="flex items-center gap-2 text-xs text-white/70 font-sans">
+          <nav className="flex items-center gap-2 text-xs sm:text-[13px] text-white/75 font-sans">
             <Link href="/" className="hover:text-[#d6b15e] transition">
               Home
             </Link>
-            <ChevronRight size={13} className="text-[#c49a4a]" />
+            <ChevronRight size={14} className="text-[#c49a4a]" />
             <Link href="/products" className="hover:text-[#d6b15e] transition">
               Shop
             </Link>
-            <ChevronRight size={13} className="text-[#c49a4a]" />
+            <ChevronRight size={14} className="text-[#c49a4a]" />
             <Link
               href={`/products?category=${encodeURIComponent(product.category)}`}
               className="hover:text-[#d6b15e] transition"
             >
               {product.category}
             </Link>
-            <ChevronRight size={13} className="text-[#c49a4a]" />
+            <ChevronRight size={14} className="text-[#c49a4a]" />
             <span className="text-[#d6b15e] font-medium truncate max-w-[200px] sm:max-w-none">
               {product.name}
             </span>
@@ -115,14 +133,21 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
             {/* Left Column: Image Gallery, Thumbnails & Product Details Accordion */}
             <div>
               <div className="relative aspect-[4/3] sm:aspect-square w-full overflow-hidden rounded-2xl border border-[#dccbb4] bg-[#171512] shadow-lg">
-                <Image
-                  src={activeImage}
-                  alt={product.name}
-                  fill
-                  priority
-                  className="object-cover transition-all duration-300"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
+                {activeImage ? (
+                  <Image
+                    src={activeImage}
+                    alt={product.name}
+                    fill
+                    priority
+                    className="object-cover transition-all duration-300"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                ) : (
+                  <div className="flex h-full w-full flex-col items-center justify-center p-6 text-center text-[#9c8973]">
+                    <PackageCheck size={48} className="mb-2 opacity-30 text-[#d6b15e]" />
+                    <p className="text-xs font-medium tracking-wide uppercase">No Image Uploaded</p>
+                  </div>
+                )}
 
                 {/* Wishlist Button */}
                 <button
@@ -137,28 +162,30 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
                 </button>
               </div>
 
-              {/* Thumbnails Row */}
-              <div className="mt-4 flex items-center gap-3">
-                {gallery.map((img, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => setActiveImage(img)}
-                    className={`relative h-20 w-20 sm:h-24 sm:w-24 overflow-hidden rounded-lg border-2 transition-all ${
-                      activeImage === img
-                        ? 'border-[#c49a4a] ring-2 ring-[#c49a4a]/30 scale-105'
-                        : 'border-[#dccbb4] hover:border-[#c49a4a]/60 opacity-80 hover:opacity-100'
-                    }`}
-                  >
-                    <Image
-                      src={img}
-                      alt={`${product.name} thumbnail ${idx + 1}`}
-                      fill
-                      className="object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
+              {/* Thumbnails Row (Only when multiple photos exist) */}
+              {gallery.length > 1 && (
+                <div className="mt-4 flex items-center gap-3 overflow-x-auto pb-1">
+                  {gallery.map((img, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setActiveImage(img)}
+                      className={`relative h-20 w-20 sm:h-24 sm:w-24 overflow-hidden rounded-lg border-2 transition-all shrink-0 ${
+                        activeImage === img
+                          ? 'border-[#c49a4a] ring-2 ring-[#c49a4a]/30 scale-105'
+                          : 'border-[#dccbb4] hover:border-[#c49a4a]/60 opacity-80 hover:opacity-100'
+                      }`}
+                    >
+                      <Image
+                        src={img}
+                        alt={`${product.name} thumbnail ${idx + 1}`}
+                        fill
+                        className="object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
 
               {/* ==================== PRODUCT DETAILS ACCORDION (LEFT COLUMN) ==================== */}
               <div className="mt-10 pt-2">

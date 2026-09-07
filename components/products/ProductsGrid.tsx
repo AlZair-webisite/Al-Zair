@@ -8,7 +8,7 @@ import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { allProducts, Product } from '@/data/catalog';
 import { useCart } from '@/context/CartContext';
 
-const categoriesList = ['Dates', 'Dates Laddu', 'Stuffed Dates', 'Date Bites', 'Gift Packs'] as const;
+const defaultCategories = ['Dates', 'Dates Laddu', 'Stuffed Dates', 'Date Bites', 'Gift Packs'];
 const productTypesList = ['Premium Dates', 'Healthy Snacks', 'Gift Products'] as const;
 
 const sortOptions = [
@@ -28,10 +28,15 @@ function ProductsContent() {
 
   const { addToCart } = useCart();
 
+  // Dynamic Data State
+  const [products, setProducts] = useState<Product[]>(allProducts);
+  const [categoriesList, setCategoriesList] = useState<string[]>(defaultCategories);
+  const [loading, setLoading] = useState(false);
+
   // Filters State
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [minPrice, setMinPrice] = useState<number>(0);
-  const [maxPrice, setMaxPrice] = useState<number>(2500);
+  const [maxPrice, setMaxPrice] = useState<number>(5000);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [inStockOnly, setInStockOnly] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<string>('Featured');
@@ -42,9 +47,41 @@ function ProductsContent() {
   // Pagination State
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  // Sync category from URL search params
+  // 1. Fetch Dynamic Products
   useEffect(() => {
-    if (initialCategory && categoriesList.includes(initialCategory as any)) {
+    async function fetchLiveProducts() {
+      try {
+        setLoading(true);
+        const res = await fetch('/api/products');
+        const json = await res.json();
+        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+          setProducts(json.data);
+        }
+      } catch {
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchLiveProducts();
+  }, []);
+
+  // 2. Fetch Dynamic Categories
+  useEffect(() => {
+    async function fetchLiveCategories() {
+      try {
+        const res = await fetch('/api/categories');
+        const json = await res.json();
+        if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+          setCategoriesList(json.data);
+        }
+      } catch {}
+    }
+    fetchLiveCategories();
+  }, []);
+
+  // 3. Sync category from URL search params
+  useEffect(() => {
+    if (initialCategory && initialCategory !== 'all') {
       setSelectedCategories([initialCategory]);
       setCurrentPage(1);
     } else if (initialCategory === 'all') {
@@ -77,7 +114,7 @@ function ProductsContent() {
   const clearAllFilters = () => {
     setSelectedCategories([]);
     setMinPrice(0);
-    setMaxPrice(2500);
+    setMaxPrice(5000);
     setSelectedTypes([]);
     setInStockOnly(false);
     setSortBy('Featured');
@@ -86,13 +123,13 @@ function ProductsContent() {
 
   // Filter & Sort Products
   const filteredProducts = useMemo(() => {
-    let result = allProducts.filter((product) => {
-      // Category filter
-      if (
-        selectedCategories.length > 0 &&
-        !selectedCategories.includes(product.category)
-      ) {
-        return false;
+    let result = products.filter((product) => {
+      // Category filter (case-insensitive matching)
+      if (selectedCategories.length > 0) {
+        const matchesCategory = selectedCategories.some(
+          (sel) => sel.toLowerCase().trim() === (product.category || '').toLowerCase().trim()
+        );
+        if (!matchesCategory) return false;
       }
       // Price filter
       if (product.price < minPrice || product.price > maxPrice) {
@@ -101,6 +138,7 @@ function ProductsContent() {
       // Product Type filter
       if (
         selectedTypes.length > 0 &&
+        product.productType &&
         !selectedTypes.includes(product.productType)
       ) {
         return false;
@@ -124,9 +162,9 @@ function ProductsContent() {
     }
 
     return result;
-  }, [selectedCategories, minPrice, maxPrice, selectedTypes, inStockOnly, sortBy]);
+  }, [products, selectedCategories, minPrice, maxPrice, selectedTypes, inStockOnly, sortBy]);
 
-  // Pagination Slice
+  // Pagination calculation
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
   const paginatedProducts = useMemo(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -156,9 +194,14 @@ function ProductsContent() {
           >
             <Filter size={14} />
             <span>FILTERS</span>
+            {selectedCategories.length > 0 && (
+              <span className="rounded-full bg-[#b89047] px-1.5 py-0.2 text-[10px] text-white">
+                {selectedCategories.length}
+              </span>
+            )}
           </button>
           <span className="text-xs text-[#5e5850]">
-            Showing {filteredProducts.length} of {allProducts.length} products
+            Showing {filteredProducts.length} of {products.length} products
           </span>
         </div>
 
@@ -181,20 +224,32 @@ function ProductsContent() {
               </button>
             </div>
 
-            {/* Category Filter */}
+            {/* Category Filter (Dynamic) */}
             <div className="border-b border-[#ebdcca] pb-6 mb-6">
-              <h4 className="text-[11px] font-bold tracking-[.15em] uppercase text-[#554e44] mb-3 font-sans">
-                Category
-              </h4>
-              <div className="space-y-2.5">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="text-[11px] font-bold tracking-[.15em] uppercase text-[#554e44] font-sans">
+                  Category
+                </h4>
+                {selectedCategories.length > 0 && (
+                  <button
+                    onClick={() => setSelectedCategories([])}
+                    className="text-[10px] text-[#a9823b] hover:underline"
+                  >
+                    Reset
+                  </button>
+                )}
+              </div>
+              <div className="space-y-2.5 max-h-64 overflow-y-auto pr-1">
                 {categoriesList.map((cat) => (
                   <label
                     key={cat}
-                    className="flex items-center gap-2.5 text-xs text-[#3a352e] cursor-pointer hover:text-[#1a1714] font-sans select-none"
+                    className="flex items-center gap-2.5 text-[13.5px] text-[#3a352e] cursor-pointer hover:text-[#1a1714] font-sans select-none"
                   >
                     <input
                       type="checkbox"
-                      checked={selectedCategories.includes(cat)}
+                      checked={selectedCategories.some(
+                        (s) => s.toLowerCase().trim() === cat.toLowerCase().trim()
+                      )}
                       onChange={() => toggleCategory(cat)}
                       className="h-4 w-4 rounded border-[#d5c7b3] text-[#b89047] focus:ring-[#b89047] accent-[#b89047]"
                     />
@@ -206,7 +261,7 @@ function ProductsContent() {
 
             {/* Price Range Filter */}
             <div className="border-b border-[#ebdcca] pb-6 mb-6">
-              <h4 className="text-[11px] font-bold tracking-[.15em] uppercase text-[#554e44] mb-3 font-sans">
+              <h4 className="text-xs font-bold tracking-[.15em] uppercase text-[#554e44] mb-3 font-sans">
                 Price Range
               </h4>
               <div className="flex items-center gap-2 mb-3">
@@ -223,33 +278,33 @@ function ProductsContent() {
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(Number(e.target.value))}
                   className="w-full rounded border border-[#d5c7b3] bg-white px-2.5 py-1.5 text-xs text-[#1a1714] text-center outline-none"
-                  placeholder="2500"
+                  placeholder="5000"
                 />
               </div>
               <input
                 type="range"
                 min="0"
-                max="2500"
+                max="5000"
                 step="50"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(Number(e.target.value))}
                 className="w-full accent-[#b89047] cursor-pointer"
               />
-              <p className="mt-1.5 text-[11px] text-[#786e60] font-sans">
+              <p className="mt-1.5 text-xs text-[#786e60] font-sans">
                 ₹{minPrice} — ₹{maxPrice}
               </p>
             </div>
 
             {/* Product Type Filter */}
             <div className="border-b border-[#ebdcca] pb-6 mb-6">
-              <h4 className="text-[11px] font-bold tracking-[.15em] uppercase text-[#554e44] mb-3 font-sans">
+              <h4 className="text-xs font-bold tracking-[.15em] uppercase text-[#554e44] mb-3 font-sans">
                 Product Type
               </h4>
               <div className="space-y-2.5">
                 {productTypesList.map((type) => (
                   <label
                     key={type}
-                    className="flex items-center gap-2.5 text-xs text-[#3a352e] cursor-pointer hover:text-[#1a1714] font-sans select-none"
+                    className="flex items-center gap-2.5 text-[13.5px] text-[#3a352e] cursor-pointer hover:text-[#1a1714] font-sans select-none"
                   >
                     <input
                       type="checkbox"
@@ -365,7 +420,7 @@ function ProductsContent() {
                         <div className="relative aspect-square w-full overflow-hidden bg-[#171512]">
                           <Link href={`/products/${product.id}`} className="block h-full w-full">
                             <Image
-                              src={product.image}
+                              src={product.image || '/images/dates.jpg'}
                               alt={product.name}
                               fill
                               className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -396,37 +451,37 @@ function ProductsContent() {
                         {/* Product Details Area */}
                         <div className="p-4 flex flex-col flex-1 justify-between">
                           <div>
-                            <p className="text-[10px] font-bold uppercase tracking-[.15em] text-[#a9823b] font-sans">
+                            <p className="text-[11px] font-bold uppercase tracking-[.15em] text-[#a9823b] font-sans">
                               {product.category}
                             </p>
 
                             <Link href={`/products/${product.id}`} className="block">
-                              <h4 className="mt-1 text-sm font-bold text-[#1a1714] font-sans line-clamp-1 group-hover:text-[#a9823b] transition-colors">
+                              <h4 className="mt-1 text-[15px] font-bold text-[#1a1714] font-sans line-clamp-1 group-hover:text-[#a9823b] transition-colors">
                                 {product.name}
                               </h4>
                             </Link>
 
                             {/* Ratings */}
-                            <div className="mt-1.5 flex items-center gap-1 text-[11px] text-[#786e60] font-sans">
+                            <div className="mt-1.5 flex items-center gap-1 text-xs text-[#786e60] font-sans">
                               <Star
-                                size={12}
+                                size={13}
                                 className="fill-[#a9823b] text-[#a9823b]"
                               />
                               <span className="font-bold text-[#1a1714]">
-                                {product.rating}
+                                {product.rating || 4.8}
                               </span>
-                              <span>({product.reviews})</span>
+                              <span>({product.reviews || 50})</span>
                             </div>
                           </div>
 
                           {/* Price & Add to Cart Button */}
-                          <div className="mt-4 flex items-center justify-between pt-2 border-t border-[#f0e6d8]">
+                          <div className="mt-4 flex items-center justify-between pt-2.5 border-t border-[#f0e6d8]">
                             <div className="flex items-baseline gap-1.5">
-                              <span className="text-sm font-bold text-[#1a1714] font-sans">
-                                ₹{product.price.toLocaleString('en-IN')}
+                              <span className="text-[15px] font-bold text-[#1a1714] font-sans">
+                                ₹{(product.price || 0).toLocaleString('en-IN')}
                               </span>
                               {product.originalPrice && (
-                                <span className="text-[11px] text-[#8c7e6c] line-through font-sans">
+                                <span className="text-xs text-[#8c7e6c] line-through font-sans">
                                   ₹{product.originalPrice.toLocaleString('en-IN')}
                                 </span>
                               )}
@@ -440,8 +495,8 @@ function ProductsContent() {
                                   id: product.id,
                                   name: product.name,
                                   price: product.price,
-                                  image: product.image,
-                                  weight: product.weight,
+                                  image: product.image || '/images/dates.jpg',
+                                  weight: product.weight || '500g',
                                 })
                               }
                               aria-label={`Add ${product.name} to cart`}
