@@ -17,7 +17,7 @@ export function Footer() {
         <div className="col-span-2 lg:col-span-1">
           <a href="/" className="mb-5 inline-block" aria-label="Al Zair home">
             <Image
-              src="/images/logo.png"
+              src="/images/finallogo.png"
               alt="Al Zair"
               width={360}
               height={120}
@@ -45,7 +45,7 @@ export function Footer() {
               <Instagram size={15} />
             </a>
             <a
-              href="https://wa.me/917052375313"
+              href="https://wa.me/918750565313"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp"
@@ -89,15 +89,15 @@ export function Footer() {
             <div className="flex items-start gap-2.5">
               <Phone size={16} className="mt-0.5 shrink-0 text-[#c49a4a]" />
               <div>
-                <a href="tel:+917052375313" className="transition-colors hover:text-[#d6b15e]">
-                  +91 7052375313
+                <a href="tel:+918750565313" className="transition-colors hover:text-[#d6b15e]">
+                  +91 8750565 313
                 </a>
               </div>
             </div>
             <div className="flex items-center gap-2.5">
               <Mail size={16} className="shrink-0 text-[#c49a4a]" />
-              <a href="mailto:alzairdates@gmail.com" className="break-all transition-colors hover:text-[#c49a4a]">
-                alzairdates@gmail.com
+              <a href="mailto:alzair0313@gmail.com" className="break-all transition-colors hover:text-[#c49a4a]">
+                alzair0313@gmail.com
               </a>
             </div>
             <div className="flex items-start gap-2.5">

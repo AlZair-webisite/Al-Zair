@@ -29,6 +29,10 @@ export async function GET() {
 export async function PUT(req: Request) {
   try {
     const body = await req.json();
+    if (!body || typeof body !== 'object' || Array.isArray(body)) {
+      return NextResponse.json({ success: false, error: 'Invalid order update' }, { status: 400 });
+    }
+
     const id = body.id || body.orderId;
 
     if (!id) {
@@ -49,6 +53,46 @@ export async function PUT(req: Request) {
       updates.notes = body.notes;
     }
 
+    const trackingUrl = body.trackingUrl !== undefined ? body.trackingUrl : body.tracking_url;
+    if (trackingUrl !== undefined) {
+      if (trackingUrl !== null && typeof trackingUrl !== 'string') {
+        return NextResponse.json({ success: false, error: 'Tracking URL must be text' }, { status: 400 });
+      }
+
+      const trimmedTrackingUrl = typeof trackingUrl === 'string' ? trackingUrl.trim() : '';
+      if (trimmedTrackingUrl.length > 2048) {
+        return NextResponse.json({ success: false, error: 'Tracking URL is too long' }, { status: 400 });
+      }
+      if (trimmedTrackingUrl) {
+        try {
+          const parsedTrackingUrl = new URL(trimmedTrackingUrl);
+          if (parsedTrackingUrl.protocol !== 'http:' && parsedTrackingUrl.protocol !== 'https:') {
+            return NextResponse.json(
+              { success: false, error: 'Tracking URL must use HTTP or HTTPS' },
+              { status: 400 }
+            );
+          }
+        } catch {
+          return NextResponse.json({ success: false, error: 'Enter a valid tracking URL' }, { status: 400 });
+        }
+      }
+      updates.tracking_url = trimmedTrackingUrl || null;
+    }
+
+    const shippingPartner =
+      body.shippingPartner !== undefined ? body.shippingPartner : body.shipping_partner;
+    if (shippingPartner !== undefined) {
+      if (shippingPartner !== null && typeof shippingPartner !== 'string') {
+        return NextResponse.json({ success: false, error: 'Shipping partner must be text' }, { status: 400 });
+      }
+
+      const trimmedShippingPartner = typeof shippingPartner === 'string' ? shippingPartner.trim() : '';
+      if (trimmedShippingPartner.length > 120) {
+        return NextResponse.json({ success: false, error: 'Shipping partner name is too long' }, { status: 400 });
+      }
+      updates.shipping_partner = trimmedShippingPartner || null;
+    }
+
     const { data, error } = await supabaseAdmin
       .from('orders')
       .update(updates)
@@ -62,7 +106,7 @@ export async function PUT(req: Request) {
 
     return NextResponse.json({
       success: true,
-      message: `Order ${data.order_number || id} status updated to ${(data.order_status || 'updated').toUpperCase()}`,
+      message: `Order ${data.order_number || id} updated successfully`,
       data,
     });
   } catch (err: any) {

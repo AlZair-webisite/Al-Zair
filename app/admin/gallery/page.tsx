@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { GalleryVideoManager } from './GalleryVideoManager';
 
 interface GalleryItem {
   id: string;
@@ -280,6 +281,8 @@ export default function AdminGalleryPage() {
           </button>
         </div>
       </div>
+
+      <GalleryVideoManager />
 
       {/* Filter and Search Bar */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 rounded-2xl border border-white/10 bg-[#14120e] p-3">

@@ -59,16 +59,16 @@ export function Header() {
 
   return (
     <>
-      <header className="absolute inset-x-0 top-0 z-30 border-b border-white/10 bg-black/20 text-white backdrop-blur-[2px] font-sans">
-        <div className="mx-auto flex h-[90px] sm:h-[100px] lg:h-[108px] max-w-[1240px] items-center justify-between px-5 lg:px-8">
+      <header className="fixed inset-x-0 top-0 z-30 border-b border-white/10 bg-[#0d0d0b] text-white font-sans">
+        <div className="mx-auto flex h-[72px] sm:h-20 lg:h-[88px] max-w-[1240px] items-center justify-between px-5 lg:px-8">
           {/* Brand Logo */}
-          <Link href="/" className="flex items-center py-1" aria-label="Al Zair home">
+          <Link href="/" className="flex items-center" aria-label="Al Zair home">
             <Image
-              src="/images/logo.png"
+              src="/images/finallogo.png"
               alt="Al Zair"
               width={360}
               height={120}
-              className="h-14 sm:h-18 lg:h-20 w-auto object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] transition-transform duration-300 hover:scale-105"
+              className="h-16 sm:h-[72px] lg:h-20 w-auto object-contain drop-shadow-[0_4px_16px_rgba(0,0,0,0.6)] transition-transform duration-300 hover:scale-105"
               priority
             />
           </Link>

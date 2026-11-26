@@ -5,7 +5,7 @@ export type ProductCategory = {
 };
 
 export const images = {
-  logo: '/images/logo.png',
+  logo: '/images/finallogo.png',
   hero: '/images/hero-image.png',
   leave: '/images/leave.png',
   footer: '/images/footer.jpg',

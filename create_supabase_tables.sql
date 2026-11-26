@@ -48,12 +48,16 @@ CREATE TABLE IF NOT EXISTS public.orders (
     order_status TEXT NOT NULL DEFAULT 'processing',
     payment_method TEXT DEFAULT 'cod',
     notes TEXT,
+    tracking_url TEXT,
+    shipping_partner TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS customer_id TEXT;
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS items JSONB DEFAULT '[]'::jsonb;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS tracking_url TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS shipping_partner TEXT;
 
 ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS "Allow all on orders" ON public.orders;

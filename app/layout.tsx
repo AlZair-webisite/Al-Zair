@@ -11,6 +11,9 @@ const cormorant = Cormorant_Garamond({ subsets: ['latin'], variable: '--font-cor
 export const metadata: Metadata = {
   title: 'Alzair | Premium Dates & Dry Fruits',
   description: 'Discover premium quality dates, dry fruits, dates laddu, stuffed dates, date bites and luxury gift packs from Alzair.',
+  icons: {
+    icon: '/images/fevicon.png',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

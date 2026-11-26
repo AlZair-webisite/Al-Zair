@@ -1,5 +1,6 @@
 import { GalleryGrid } from '@/components/gallery/GalleryGrid';
 import { GalleryHero } from '@/components/gallery/GalleryHero';
+import { GalleryVideoSection } from '@/components/gallery/GalleryVideoSection';
 import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 
@@ -13,6 +14,7 @@ export default function GalleryPage() {
     <main className="overflow-hidden bg-[#f5f0e7] text-[#171513]">
       <Header />
       <GalleryHero />
+      <GalleryVideoSection />
       <GalleryGrid />
       <Footer />
     </main>

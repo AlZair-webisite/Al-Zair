@@ -63,9 +63,14 @@ CREATE TABLE IF NOT EXISTS public.orders (
     order_status TEXT NOT NULL DEFAULT 'pending' CHECK (order_status IN ('pending', 'processing', 'shipped', 'delivered', 'cancelled')),
     payment_method TEXT DEFAULT 'cod' CHECK (payment_method IN ('cod', 'online', 'upi')),
     notes TEXT,
+    tracking_url TEXT,
+    shipping_partner TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
+
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS tracking_url TEXT;
+ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS shipping_partner TEXT;
 
 -- 5. ORDER ITEMS TABLE
 CREATE TABLE IF NOT EXISTS public.order_items (
@@ -111,7 +116,22 @@ CREATE TABLE IF NOT EXISTS public.gallery (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- 9. HOMEPAGE CONTENT & SECTIONS TABLE
+-- 9. RESPONSIVE GALLERY VIDEOS
+CREATE TABLE IF NOT EXISTS public.gallery_videos (
+    variant TEXT PRIMARY KEY CHECK (variant IN ('desktop', 'mobile')),
+    url TEXT NOT NULL,
+    file_id TEXT,
+    file_name TEXT NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+INSERT INTO public.gallery_videos (variant, url, file_name)
+VALUES
+    ('desktop', '/videos/WhatsApp%20Video%202026-11-26%20at%2012.42.41%20PM.mp4', 'WhatsApp Video 2026-11-26 at 12.42.41 PM.mp4'),
+    ('mobile', '/videos/WhatsApp%20Video%202026-11-26%20at%2012.42.42%20PM.mp4', 'WhatsApp Video 2026-11-26 at 12.42.42 PM.mp4')
+ON CONFLICT (variant) DO NOTHING;
+
+-- 10. HOMEPAGE CONTENT & SECTIONS TABLE
 CREATE TABLE IF NOT EXISTS public.homepage_content (
     id TEXT PRIMARY KEY DEFAULT 'main_homepage',
     hero JSONB NOT NULL DEFAULT '{
@@ -164,12 +184,15 @@ ALTER TABLE public.order_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.contact_inquiries ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.newsletter_subscribers ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.gallery ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.gallery_videos ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.homepage_content ENABLE ROW LEVEL SECURITY;
 
 -- Gallery: Public can view, Admins can manage
 CREATE POLICY "Public can view gallery" ON public.gallery FOR SELECT USING (true);
 CREATE POLICY "Admins can manage gallery" ON public.gallery FOR ALL USING (true);
 
+DROP POLICY IF EXISTS "Public can view gallery videos" ON public.gallery_videos;
+CREATE POLICY "Public can view gallery videos" ON public.gallery_videos FOR SELECT USING (true);
 
 -- Homepage Content: Public can read, Admins can update
 CREATE POLICY "Public can view homepage content" ON public.homepage_content FOR SELECT USING (true);

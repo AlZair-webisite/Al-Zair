@@ -72,7 +72,7 @@ const termsCards = [
     icon: HelpCircle,
     title: '10. Contact & Customer Support',
     content:
-      'For any questions, clarifications, or feedback regarding these Terms and Conditions, please reach out to us at alzairdates@gmail.com or call +91 7052375313. Our customer care team is available Monday through Saturday from 9:00 AM to 7:00 PM.',
+      'For any questions, clarifications, or feedback regarding these Terms and Conditions, please reach out to us at alzair0313@gmail.com or call +91 8750565 313. Our customer care team is available Monday through Saturday from 9:00 AM to 7:00 PM.',
   },
 ];
 
@@ -128,7 +128,7 @@ export function TermsContent() {
         {/* Bottom Disclaimer */}
         <div className="mt-14 text-center">
           <p className="text-[11px] text-[#786e60]">
-            © 2024 Alzair Dates Dry Fruits. All rights reserved. For business or legal inquiries, email us at alzairdates@gmail.com.
+            © 2024 Alzair Dates Dry Fruits. All rights reserved. For business or legal inquiries, email us at alzair0313@gmail.com.
           </p>
         </div>
       </div>

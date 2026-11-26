@@ -115,7 +115,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div className="pb-6 border-b border-white/10">
             <Link href="/admin" className="flex items-center gap-2">
               <Image
-                src="/images/logo.png"
+                src="/images/finallogo.png"
                 alt="Al Zair"
                 width={280}
                 height={90}
@@ -218,7 +218,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <div>
                 <div className="flex items-center justify-between pb-4 border-b border-white/10">
                   <Image
-                    src="/images/logo.png"
+                    src="/images/finallogo.png"
                     alt="Al Zair"
                     width={180}
                     height={60}

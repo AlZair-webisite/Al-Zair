@@ -26,6 +26,8 @@ import {
   CreditCard,
   FileText,
   ChevronDown,
+  Loader2,
+  Save,
 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -55,6 +57,8 @@ export interface Order {
   payment_method: 'cod' | 'online' | 'upi' | 'card';
   items: OrderItem[];
   notes?: string;
+  tracking_url?: string | null;
+  shipping_partner?: string | null;
   created_at: string;
   updated_at?: string;
 }
@@ -79,6 +83,8 @@ export default function AdminOrdersPage() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isInvoiceOpen, setIsInvoiceOpen] = useState(false);
+  const [shippingForm, setShippingForm] = useState({ trackingUrl: '', shippingPartner: '' });
+  const [savingShipping, setSavingShipping] = useState(false);
 
   // Toast
   const [toastMsg, setToastMsg] = useState('');
@@ -160,6 +166,45 @@ export default function AdminOrdersPage() {
     } catch {
       setOrders(prevOrders);
       showToast('Failed to update payment status');
+    }
+  };
+
+  const handleUpdateShippingDetails = async (orderId: string) => {
+    setSavingShipping(true);
+
+    try {
+      const res = await fetch('/api/admin/orders', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: orderId,
+          trackingUrl: shippingForm.trackingUrl,
+          shippingPartner: shippingForm.shippingPartner,
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.success || !json.data) {
+        throw new Error(json.error || 'Failed to save shipping details');
+      }
+
+      const updatedOrder: Order = json.data;
+      setOrders((current) =>
+        current.map((order) =>
+          order.id === updatedOrder.id || order.order_number === updatedOrder.order_number
+            ? updatedOrder
+            : order
+        )
+      );
+      setSelectedOrder(updatedOrder);
+      setShippingForm({
+        trackingUrl: updatedOrder.tracking_url || '',
+        shippingPartner: updatedOrder.shipping_partner || '',
+      });
+      showToast('Shipping details saved');
+    } catch (error) {
+      showToast(error instanceof Error ? error.message : 'Failed to save shipping details');
+    } finally {
+      setSavingShipping(false);
     }
   };
 
@@ -467,6 +512,10 @@ export default function AdminOrdersPage() {
                             type="button"
                             onClick={() => {
                               setSelectedOrder(order);
+                              setShippingForm({
+                                trackingUrl: order.tracking_url || '',
+                                shippingPartner: order.shipping_partner || '',
+                              });
                               setIsDetailsOpen(true);
                             }}
                             className="rounded-lg p-1.5 text-white/70 hover:bg-white/10 hover:text-white transition"
@@ -508,8 +557,8 @@ export default function AdminOrdersPage() {
 
       {/* ==================== ORDER DETAILS MODAL ==================== */}
       {isDetailsOpen && selectedOrder && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-          <div className="relative w-full max-w-2xl rounded-3xl border border-white/15 bg-[#14120e] p-6 sm:p-8 shadow-2xl my-8 text-white">
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-3 bg-black/80 backdrop-blur-sm sm:p-6">
+          <div className="relative my-0 max-h-[calc(100dvh-1.5rem)] w-full max-w-2xl overflow-y-auto overscroll-contain rounded-3xl border border-white/15 bg-[#14120e] p-6 text-white shadow-2xl sm:max-h-[calc(100dvh-3rem)] sm:p-8">
             <div className="flex items-center justify-between pb-5 border-b border-white/10">
               <div className="flex items-center gap-3">
                 <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#c49a4a]/20 text-[#c49a4a]">
@@ -608,6 +657,63 @@ export default function AdminOrdersPage() {
                   </div>
                 </div>
               </div>
+
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  void handleUpdateShippingDetails(selectedOrder.id);
+                }}
+                className="rounded-2xl border border-[#c49a4a]/25 bg-[#c49a4a]/5 p-4 sm:p-5"
+              >
+                <div className="mb-4">
+                  <h4 className="text-sm font-bold text-white">Customer tracking details</h4>
+                  <p className="mt-1 text-xs text-white/55">
+                    These details appear in the customer&apos;s order history.
+                  </p>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="order-shipping-partner" className="mb-1.5 block text-xs font-semibold text-white/75">
+                      Shipping partner
+                    </label>
+                    <input
+                      id="order-shipping-partner"
+                      type="text"
+                      maxLength={120}
+                      value={shippingForm.shippingPartner}
+                      onChange={(event) =>
+                        setShippingForm((current) => ({ ...current, shippingPartner: event.target.value }))
+                      }
+                      placeholder="e.g. Delhivery"
+                      className="min-h-11 w-full rounded-xl border border-white/15 bg-white/5 px-3 py-2.5 text-sm text-white placeholder:text-white/35 outline-none focus:border-[#c49a4a] focus-visible:ring-2 focus-visible:ring-[#c49a4a]/50"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="order-tracking-url" className="mb-1.5 block text-xs font-semibold text-white/75">
+                      Tracking URL
+                    </label>
+                    <input
+                      id="order-tracking-url"
+                      type="url"
+                      maxLength={2048}
+                      value={shippingForm.trackingUrl}
+                      onChange={(event) =>
+                        setShippingForm((current) => ({ ...current, trackingUrl: event.target.value }))
+                      }
+                      placeholder="https://carrier.example/track/..."
+                      className="min-h-11 w-full rounded-xl border border-white/15 bg-white/5 px-3 py-2.5 text-sm text-white placeholder:text-white/35 outline-none focus:border-[#c49a4a] focus-visible:ring-2 focus-visible:ring-[#c49a4a]/50"
+                    />
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  disabled={savingShipping}
+                  className="mt-4 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#c49a4a] px-4 py-2.5 text-xs font-bold text-[#12100d] transition hover:bg-[#d6b15e] disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d6b15e] focus-visible:ring-offset-2 focus-visible:ring-offset-[#14120e]"
+                >
+                  {savingShipping ? <Loader2 size={15} className="animate-spin" /> : <Save size={15} />}
+                  {savingShipping ? 'Saving…' : 'Save tracking details'}
+                </button>
+              </form>
 
               {/* Status Controls */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

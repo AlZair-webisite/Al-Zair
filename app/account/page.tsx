@@ -22,6 +22,17 @@ import { Footer } from '@/components/layout/Footer';
 import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
 
+function getTrackingUrl(value: unknown): string | null {
+  if (typeof value !== 'string' || !value.trim()) return null;
+
+  try {
+    const url = new URL(value);
+    return url.protocol === 'http:' || url.protocol === 'https:' ? value : null;
+  } catch {
+    return null;
+  }
+}
+
 function AccountContent() {
   const router = useRouter();
   const { user, loading, logout, updateProfile } = useAuth();
@@ -386,6 +397,9 @@ function AccountContent() {
                           : 'Premium Dates Assortment';
 
                         const isProcessing = (order.order_status || order.status) === 'processing' || (order.order_status || order.status) === 'pending';
+                        const trackingUrl = getTrackingUrl(order.tracking_url);
+                        const shippingPartner =
+                          typeof order.shipping_partner === 'string' ? order.shipping_partner.trim() : '';
 
                         return (
                           <div
@@ -436,6 +450,38 @@ function AccountContent() {
                                 Total: <span className="text-[#a9823b]">₹{Number(order.total_amount || order.total || 0).toLocaleString('en-IN')}</span>
                               </p>
                             </div>
+
+                            {(shippingPartner || trackingUrl) && (
+                              <div className="mt-4 border-t border-[#ebdcca] pt-3">
+                                {shippingPartner && (
+                                  <p className="text-xs font-semibold text-[#554e44]">
+                                    Shipping partner: <span className="text-[#1a1714]">{shippingPartner}</span>
+                                  </p>
+                                )}
+                                {trackingUrl && (
+                                  <div className="mt-2 flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between">
+                                    <a
+                                      href={trackingUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="max-w-full break-all text-[11px] text-[#8a6828] underline underline-offset-2"
+                                    >
+                                      {trackingUrl}
+                                    </a>
+                                    <a
+                                      href={trackingUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      aria-label={`Track order ${order.order_number || order.id}`}
+                                      className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-lg bg-[#171513] px-4 py-2 text-xs font-bold text-[#d6b15e] transition hover:bg-[#302a20] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c49a4a]"
+                                    >
+                                      <Truck size={15} />
+                                      Track package
+                                    </a>
+                                  </div>
+                                )}
+                              </div>
+                            )}
                           </div>
                         );
                       })}

@@ -63,7 +63,7 @@ function LoginForm() {
         <div className="flex flex-col items-center text-center mb-8">
           <div className="flex items-center justify-center mb-3">
             <Image
-              src="/images/logo.png"
+              src="/images/finallogo.png"
               alt="Al Zair"
               width={340}
               height={110}

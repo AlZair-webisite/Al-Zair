@@ -74,10 +74,10 @@ export function ContactSection() {
                   Phone
                 </p>
                 <a
-                  href="tel:+917052375313"
+                  href="tel:+918750565313"
                   className="mt-1 block text-[15px] font-semibold text-[#1a1714] hover:text-[#a9823b] transition-colors"
                 >
-                  +91 7052375313
+                  +91 8750565 313
                 </a>
               </div>
             </div>
@@ -92,10 +92,10 @@ export function ContactSection() {
                   Email
                 </p>
                 <a
-                  href="mailto:alzairdates@gmail.com"
+                  href="mailto:alzair0313@gmail.com"
                   className="mt-1 block text-[15px] font-semibold text-[#1a1714] hover:text-[#a9823b] transition-colors"
                 >
-                  alzairdates@gmail.com
+                  alzair0313@gmail.com
                 </a>
               </div>
             </div>

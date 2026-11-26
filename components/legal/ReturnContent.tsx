@@ -66,7 +66,7 @@ const returnCards = [
     icon: PhoneCall,
     title: '9. Dedicated Support & Assistance',
     content:
-      'Our customer care team is dedicated to providing quick and friendly resolutions. Email us at alzairdates@gmail.com, call +91 7052375313, or reach out directly on WhatsApp with your Order ID for immediate support.',
+      'Our customer care team is dedicated to providing quick and friendly resolutions. Email us at alzair0313@gmail.com, call +91 8750565 313, or reach out directly on WhatsApp with your Order ID for immediate support.',
   },
 ];
 
@@ -126,13 +126,13 @@ export function ReturnContent() {
           </p>
           <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
             <a
-              href="mailto:alzairdates@gmail.com"
+              href="mailto:alzair0313@gmail.com"
               className="inline-flex items-center gap-1.5 rounded-full bg-[#171513] px-5 py-2 text-xs font-bold text-white transition hover:bg-[#a9823b]"
             >
               Email Support
             </a>
             <a
-              href="https://wa.me/917052375313"
+              href="https://wa.me/918750565313"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 rounded-full border border-[#c49a4a] bg-[#fdfbf7] px-5 py-2 text-xs font-bold text-[#171513] transition hover:bg-[#c49a4a]"

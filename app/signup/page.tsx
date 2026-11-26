@@ -50,7 +50,7 @@ function SignupContent() {
           <Link href="/" className="inline-block transition-transform duration-300 hover:scale-105">
             <div className="relative h-16 w-44 mx-auto">
               <Image
-                src="/images/logo.png"
+                src="/images/finallogo.png"
                 alt="Alzair Logo"
                 fill
                 className="object-contain"
